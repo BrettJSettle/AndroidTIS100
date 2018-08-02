@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Introduction",
+    "description": "Introduction level. Increment input by one"
+  },
+  {
+    "name": "Double Down",
+    "description": "Double input values"
+  },
+  {
+    "name": "Triple Threat",
+    "description": "Return the sum of the last 3 inputs"
+  }
+]

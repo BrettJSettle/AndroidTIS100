@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:gravity="fill"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@android:color/darker_gray"
+        android:contentDescription="@string/play_description"
+        android:padding="5dp"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <ImageButton
+        android:id="@+id/stepButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@android:color/darker_gray"
+        android:contentDescription="@string/step_description"
+        android:padding="5dp"
+        app:srcCompat="@drawable/step_icon" />
+
+    <ImageButton
+        android:id="@+id/stopButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@android:color/darker_gray"
+        android:contentDescription="@string/stop_description"
+        android:padding="5dp"
+        app:srcCompat="@drawable/reset_icon" />
+</LinearLayout>
