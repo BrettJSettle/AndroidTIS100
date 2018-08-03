@@ -10,5 +10,9 @@
   {
     "name": "Triple Threat",
     "description": "Return the sum of the last 3 inputs"
+  },
+  {
+  "name": "Big Game",
+  "description": "Large testing grid"
   }
 ]

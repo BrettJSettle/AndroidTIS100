@@ -12,32 +12,31 @@
         android:id="@+id/playButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
         android:layout_weight="1"
         android:background="@android:color/darker_gray"
         android:contentDescription="@string/play_description"
-        android:padding="5dp"
         app:srcCompat="@android:drawable/ic_media_play" />
 
+    <Space
+        android:layout_width="5dp"
+        android:layout_height="match_parent" />
     <ImageButton
         android:id="@+id/stepButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
         android:layout_weight="1"
         android:background="@android:color/darker_gray"
         android:contentDescription="@string/step_description"
-        android:padding="5dp"
         app:srcCompat="@drawable/step_icon" />
-
+    <Space
+        android:layout_width="5dp"
+        android:layout_height="match_parent" />
     <ImageButton
         android:id="@+id/stopButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
         android:layout_weight="1"
         android:background="@android:color/darker_gray"
         android:contentDescription="@string/stop_description"
-        android:padding="5dp"
         app:srcCompat="@drawable/reset_icon" />
 </LinearLayout>

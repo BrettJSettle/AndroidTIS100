@@ -53,6 +53,7 @@ public class CommandEditorView extends LimitedEditText {
         setLineSpacing(0, 1);
         setBackgroundColor(Color.argb(0, 0, 0, 0));
         setMaxCharacters(getResources().getInteger(R.integer.max_characters));
+        setEnabled(false);
         addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

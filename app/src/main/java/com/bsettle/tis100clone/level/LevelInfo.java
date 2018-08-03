@@ -88,30 +88,30 @@ public class LevelInfo extends LevelTileInfo{
                         reader.beginArray();
                         while (reader.hasNext()){
                             reader.beginObject();
-                            while(reader.hasNext()){
-                                int column = -1;
-                                Vector<Integer> values = new Vector<>();
-                                switch (reader.nextName()){
+                            int column = -1;
+                            Vector<Integer> values = new Vector<>();
+                            while(reader.hasNext()) {
+                                switch (reader.nextName()) {
                                     case "column":
                                         column = reader.nextInt();
                                         break;
                                     case "values":
                                         reader.beginArray();
-                                        while(reader.hasNext()){
+                                        while (reader.hasNext()) {
                                             values.add(reader.nextInt());
                                         }
                                         reader.endArray();
                                         break;
                                 }
-                                if (column >= 0) {
-                                    if (name.equals("input")) {
-                                        levelInfo.addInputColumn(column, values);
-                                    }else {
-                                        levelInfo.addOutputColumn(column, values);
-                                    }
-                                }
                             }
                             reader.endObject();
+                            if (column >= 0) {
+                                if (name.equals("input")) {
+                                    levelInfo.addInputColumn(column, values);
+                                }else {
+                                    levelInfo.addOutputColumn(column, values);
+                                }
+                            }
                         }
                         reader.endArray();
                         break;

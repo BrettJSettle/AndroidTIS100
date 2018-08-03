@@ -6,7 +6,9 @@ import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.bsettle.tis100clone.view.UnidirectionalPortView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
@@ -57,8 +60,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         setContentView(R.layout.activity_level);
         gridLayout = findViewById(R.id.gridLayout);
         ControlView controlView = findViewById(R.id.buttonView);
-        PanView panView = findViewById(R.id.scrollView);
-        gridLayout.setTop(0);
+//        PanView panView = findViewById(R.id.scrollView);
         controlView.setHandler(this);
 
         Intent intent = getIntent();
@@ -73,7 +75,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             LevelInfo info = LevelInfo.fromFile(item, is);
             gameState = new GameState(info);
             addNodeViews();
-//            addPortViews();
+            addPortViews();
             addIOViews();
         }catch(IOException e){
             logger.info("Failed to load level " + item.getName());
@@ -153,10 +155,11 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         }
 
         name = 'A';
-        for (Map.Entry<Integer, InputNode> entry : gameState.getInputNodes().entrySet()){
+        for (Map.Entry<Integer, Node> entry : gameState.getOutputNodes().entrySet()){
             int column = entry.getKey();
             Node outputNode = entry.getValue();
             OutputView outputPortView = new OutputView(this, "OUT." + String.valueOf(name), outputNode);
+
             addView(outputPortView, gridLayout.getRowCount()-1, column * 2);
             outputViews.add(outputPortView);
             portViews.add(outputPortView);
@@ -178,7 +181,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
     }
 
     private void step(){
-        Vector<Integer> output = null;
+        HashMap<Node, Integer> output = null;
         if (!gameState.isRunning()){
             gameState.activate();
 
@@ -198,11 +201,13 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
 
         for (PortView pv : portViews){
             pv.update();
+            if (pv instanceof OutputView){
+                Node op = ((OutputView) pv).getSourceNode();
+                if(output != null && output.containsKey(op)){
+                    ((OutputView) pv).addOutput(output.get(op));
+                }
+            }
         }
-
-        // update IOViews
-//        ioView.update(gameState.getInputLine(), output);
-
     }
 
     private void play(){

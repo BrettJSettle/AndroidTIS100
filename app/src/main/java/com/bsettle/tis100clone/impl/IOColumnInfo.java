@@ -5,6 +5,7 @@ import java.util.Vector;
 public class IOColumnInfo {
     private int column;
     private Vector<Integer> values;
+
     public IOColumnInfo(int column, Vector<Integer> values){
         this.column = column;
         this.values = values;

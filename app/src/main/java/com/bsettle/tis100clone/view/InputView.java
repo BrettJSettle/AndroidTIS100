@@ -13,32 +13,19 @@ import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.PortToken;
 
 import java.util.Iterator;
+import java.util.Locale;
+import java.util.function.Consumer;
 
-public class InputView extends PortView  {
-
-    private InputNode inputNode;
+public class InputView extends IOPortView  {
 
     public InputView(Context context, String header, InputNode source, Node target) {
-        super(context, LinearLayout.HORIZONTAL, source, target);
-        ((IOColumnView) viewA).setHeader(header);
-        setInputNode(source);
-    }
-
-    @Override
-    protected View getViewA() {
-        if(viewA == null) {
-            viewA = new IOColumnView(getContext());
-        }
-        return viewA;
-    }
-
-    public void setInputNode(InputNode inp){
-        this.inputNode = inp;
-        update();
-    }
-
-    private IOColumnView getInputColumn(){
-        return (IOColumnView) viewA;
+        super(context, header, source, target);
+        source.iter().forEachRemaining(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) {
+                getIOColumn().addRow(String.valueOf(integer));
+            }
+        });
     }
 
     @Override
@@ -50,8 +37,8 @@ public class InputView extends PortView  {
 
     @Override
     public void update() {
-        for(Iterator<Integer> iter = inputNode.iter(); iter.hasNext();) {
-            getInputColumn().addRow(iter.next());
-        }
+        super.update();
+        InputNode inp = (InputNode) getSourceNode();
+        getIOColumn().setSelectedLine(inp.getInputLine());
     }
 }

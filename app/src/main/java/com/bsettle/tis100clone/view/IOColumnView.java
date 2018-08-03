@@ -34,6 +34,10 @@ public class IOColumnView extends LinearLayout {
         initialize(context);
     }
 
+    public int getLineCount(){
+        return lines.size();
+    }
+
     private void initialize(Context context){
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -48,21 +52,20 @@ public class IOColumnView extends LinearLayout {
         headerView.setText(header);
     }
 
-    public TextView addRow(int i){
+    public TextView addRow(String i){
         TextView tv = new TextView(getContext());
         tv.setTextColor(Color.WHITE);
-        tv.setText(String.format(Locale.getDefault(), "%d", i));
+        tv.setText(i);
         tv.setTextAlignment(TEXT_ALIGNMENT_CENTER);
         columnLayout.addView(tv);
         lines.add(tv);
         return tv;
     }
 
-    public Integer getSelectedValue(){
-        if (selectedLine < 0 || selectedLine >= lines.size())
-            return null;
-        String s = lines.get(selectedLine).getText().toString();
-        return Integer.parseInt(s);
+    public void setRow(int row, String val){
+        if (row >= 0 && row < lines.size()){
+            lines.get(row).setText(val);
+        }
     }
 
     public Integer getSelectedLine(){
@@ -77,7 +80,7 @@ public class IOColumnView extends LinearLayout {
     public void setData(Vector<Integer> nums){
         clear();
         for (Integer i : nums){
-            addRow(i);
+            addRow(String.format(Locale.getDefault(), "%d", i));
         }
     }
 

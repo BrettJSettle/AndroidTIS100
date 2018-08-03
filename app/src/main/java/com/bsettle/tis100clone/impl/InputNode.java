@@ -41,6 +41,10 @@ public class InputNode extends Node {
         push();
     }
 
+    public int getInputLine(){
+        return inputLine;
+    }
+
     public Iterator<Integer> iter(){
         return input.iterator();
     }

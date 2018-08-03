@@ -63,15 +63,13 @@ public class GameState {
 
     }
 
-    private Vector<Integer> ioDiff(){
-        Vector<Integer> outputs = new Vector<>();
+    private HashMap<Node, Integer> ioDiff(){
+        HashMap<Node, Integer> outputs = new HashMap<>();
         for (Node outputNode : outputNodes.values()){
             PortToken outPort = outputNode.getState().getWritingPort();
             if (outPort != null && (outPort.equals(PortToken.ANY) || outPort.equals(PortToken.DOWN))){
-                outputs.add(outputNode.getState().getWritingValue());
+                outputs.put(outputNode, outputNode.getState().getWritingValue());
                 outputNode.writeFinished(outPort);
-            }else{
-                outputs.add(null);
             }
         }
 
@@ -81,12 +79,12 @@ public class GameState {
         return outputs;
     }
 
-    public Vector<Integer> step() {
+    public HashMap<Node, Integer> step() {
 
         if (!running) {
-            return null;
+            return new HashMap<>();
         }
-        Vector<Integer> outputs = ioDiff();
+        HashMap<Node, Integer> outputs = ioDiff();
 
         for (Node node : nodeGrid.nodeIterator()) {
             node.getDiff();

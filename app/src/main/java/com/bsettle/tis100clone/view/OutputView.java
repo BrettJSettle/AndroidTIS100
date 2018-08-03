@@ -8,23 +8,13 @@ import com.bsettle.tis100clone.R;
 import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.PortToken;
 
-public class OutputView extends PortView {
+public class OutputView extends IOPortView {
 
     public OutputView(Context context, String header, Node nodeA) {
-        super(context, LinearLayout.HORIZONTAL, nodeA, null);
-        ((IOColumnView) viewA).setHeader(header);
+        super(context, header, nodeA, null);
     }
 
-    @Override
-    protected View getViewA() {
-        if(viewA == null) {
-            viewA = new IOColumnView(getContext());
-        }
-        return viewA;
-    }
-
-    @Override
-    public void update() {
-
+    public void addOutput(int output){
+        getIOColumn().getSelectedLine();
     }
 }
