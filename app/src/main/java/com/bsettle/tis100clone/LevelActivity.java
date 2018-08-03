@@ -14,6 +14,7 @@ import com.bsettle.tis100clone.event.ControlHandler;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.InputNode;
 import com.bsettle.tis100clone.impl.Node;
+import com.bsettle.tis100clone.impl.PortToken;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
 import com.bsettle.tis100clone.state.GameState;
@@ -24,6 +25,7 @@ import com.bsettle.tis100clone.view.InputView;
 import com.bsettle.tis100clone.view.OutputView;
 import com.bsettle.tis100clone.view.PanView;
 import com.bsettle.tis100clone.view.PortView;
+import com.bsettle.tis100clone.view.UnidirectionalPortView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +58,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         gridLayout = findViewById(R.id.gridLayout);
         ControlView controlView = findViewById(R.id.buttonView);
         PanView panView = findViewById(R.id.scrollView);
-        panView.setFillViewportHeight(false);
+        gridLayout.setTop(0);
         controlView.setHandler(this);
 
         Intent intent = getIntent();
@@ -71,8 +73,8 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             LevelInfo info = LevelInfo.fromFile(item, is);
             gameState = new GameState(info);
             addNodeViews();
-            addPortViews();
-            //addIOViews();
+//            addPortViews();
+            addIOViews();
         }catch(IOException e){
             logger.info("Failed to load level " + item.getName());
         }
@@ -101,8 +103,8 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
     }
 
     private void addView(View view, int row, int col){
-        GridLayout.Spec rowSpan = GridLayout.spec(row, GridLayout.FILL);
-        GridLayout.Spec colspan = GridLayout.spec(col, GridLayout.FILL);
+        GridLayout.Spec rowSpan = GridLayout.spec(row, GridLayout.CENTER);
+        GridLayout.Spec colspan = GridLayout.spec(col, GridLayout.CENTER);
 
         GridLayout.LayoutParams gridParam = new GridLayout.LayoutParams(
                 rowSpan, colspan);
@@ -133,6 +135,9 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
     }
 
     public void addIOViews(){
+        if (portViews == null){
+            portViews = new Vector<>();
+        }
         inputViews = new Vector<>();
         outputViews = new Vector<>();
 
@@ -143,6 +148,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             InputView inputPortView = new InputView(this, "IN." + String.valueOf(name), inputNode, gameState.getNode(0, column));
             addView(inputPortView, 0, column * 2);
             inputViews.add(inputPortView);
+            portViews.add(inputPortView);
             name++;
         }
 
@@ -153,6 +159,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             OutputView outputPortView = new OutputView(this, "OUT." + String.valueOf(name), outputNode);
             addView(outputPortView, gridLayout.getRowCount()-1, column * 2);
             outputViews.add(outputPortView);
+            portViews.add(outputPortView);
             name++;
         }
 
@@ -178,12 +185,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             if (getCurrentFocus() != null) {
                 getCurrentFocus().clearFocus();
             }
-//            for (InputView view : inputViews){
-//                view.activate();
-//            }
-//            for (OutputView view : outputViews){
-//                view.activate();
-//            }
+
         }else {
             output = gameState.step();
         }

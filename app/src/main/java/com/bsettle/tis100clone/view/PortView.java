@@ -2,6 +2,8 @@ package com.bsettle.tis100clone.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Constraints;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -13,11 +15,11 @@ import com.bsettle.tis100clone.R;
 import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.PortToken;
 
-public abstract class PortView extends ViewGroup {
+public abstract class PortView extends LinearLayout {
 
     protected final Node nodeA, nodeB;
     protected View viewA, viewB;
-    private final int orientation;
+    protected final int orientation;
 
     public PortView(Context context, int orientation, Node nodeA, Node nodeB) {
         super(context);
@@ -41,34 +43,40 @@ public abstract class PortView extends ViewGroup {
 
     private void init(){
 
-        float height = getResources().getDimension(R.dimen.port_size);
-        float width = getResources().getDimension(R.dimen.port_size);
-
-        if (orientation == LinearLayout.HORIZONTAL){
-            height = getResources().getDimension(R.dimen.node_size) / 2;
-        }else if (orientation == LinearLayout.VERTICAL){
-            width = getResources().getDimension(R.dimen.node_size) / 2;
-        }
-//        setOrientation(orientation);
-        LayoutParams params = new LayoutParams((int)width, (int)height);
-//        params.gravity = Gravity.END;
-
+//        float height = getResources().getDimension(R.dimen.port_size);
+//        float width = getResources().getDimension(R.dimen.port_size);
+//
+//        if (orientation == LinearLayout.HORIZONTAL){
+//            height = getResources().getDimension(R.dimen.node_size) / 2;
+//        }else if (orientation == LinearLayout.VERTICAL){
+//            width = getResources().getDimension(R.dimen.node_size) / 2;
+//        }
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.gravity = Gravity.CENTER_VERTICAL;
+//        ConstraintLayout.LayoutParams params = new Constraints.LayoutParams((int)width, (int)height);
         setLayoutParams(params);
 
+        setOrientation(orientation);
         addView(getViewA(), getViewAParams());
-        addView(getViewB());//, getViewBParams());
+        addView(getViewB(), getViewBParams());
     }
 
-    protected RelativeLayout.LayoutParams getViewAParams(){
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.ALIGN_RIGHT, getViewB().getId());
+
+    LinearLayout.LayoutParams getViewAParams(){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        params.leftToRight = getViewB().getId();
         return params;
     }
+    LinearLayout.LayoutParams getViewBParams(){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        return params;
+    }
+
 
     protected View getViewA(){
         if (viewA == null) {
             if (orientation == LinearLayout.HORIZONTAL) {
-                viewA = new UnidirectionalPortView(getContext(), PortToken.UP, nodeA, nodeB);
+                viewA = new UnidirectionalPortView(getContext(), PortToken.UP, nodeB, nodeA);
             }else{
                 viewA = new UnidirectionalPortView(getContext(), PortToken.RIGHT, nodeA, nodeB);
             }
@@ -79,7 +87,7 @@ public abstract class PortView extends ViewGroup {
     protected View getViewB(){
         if (viewB == null) {
             if (orientation == LinearLayout.HORIZONTAL) {
-                viewB = new UnidirectionalPortView(getContext(), PortToken.DOWN, nodeB, nodeA);
+                viewB = new UnidirectionalPortView(getContext(), PortToken.DOWN, nodeA, nodeB);
             }else {
                 viewB = new UnidirectionalPortView(getContext(), PortToken.LEFT, nodeB, nodeA);
                 viewB.setLayoutDirection(LAYOUT_DIRECTION_RTL);
@@ -94,13 +102,6 @@ public abstract class PortView extends ViewGroup {
 
     public void setViewBVisibility(int visible){
         viewB.setVisibility(visible);
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        viewA.layout(0, 0, 50, 50);
-        viewB.layout(viewA.getMeasuredWidth(), 0, 50, 50);
-
     }
 
     public abstract void update();

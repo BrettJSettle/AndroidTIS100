@@ -12,7 +12,7 @@ public class BidirectionalPortView extends PortView {
 
     @Override
     public void update(){
-        ((PortView) viewA).update();
-        ((PortView) viewB).update();
+        ((UnidirectionalPortView) viewA).update();
+        ((UnidirectionalPortView) viewB).update();
     }
 }

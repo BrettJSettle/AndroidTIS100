@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
         playButton = findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
 
+        Intent levelSelectIntent = new Intent(this, LevelSelectActivity.class);
+        startActivity(levelSelectIntent);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.bsettle.tis100clone.impl;
 import com.bsettle.tis100clone.state.NodeState;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class InputNode extends Node {
@@ -38,5 +39,9 @@ public class InputNode extends Node {
         inputLine = 0;
         commit(NodeState.WRITING_PORT, null);
         push();
+    }
+
+    public Iterator<Integer> iter(){
+        return input.iterator();
     }
 }

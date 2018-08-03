@@ -10,18 +10,15 @@ import com.bsettle.tis100clone.impl.PortToken;
 
 public class OutputView extends PortView {
 
-    private final String header;
-
     public OutputView(Context context, String header, Node nodeA) {
         super(context, LinearLayout.HORIZONTAL, nodeA, null);
-        this.header = header;
+        ((IOColumnView) viewA).setHeader(header);
     }
 
     @Override
     protected View getViewA() {
         if(viewA == null) {
             viewA = new IOColumnView(getContext());
-            ((IOColumnView) viewA).setHeader(header);
         }
         return viewA;
     }

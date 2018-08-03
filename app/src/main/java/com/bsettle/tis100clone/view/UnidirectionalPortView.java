@@ -17,11 +17,9 @@ import com.bsettle.tis100clone.R;
 import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.PortToken;
 
-public class UnidirectionalPortView extends RelativeLayout {
+public class UnidirectionalPortView extends android.support.v7.widget.AppCompatTextView {
 
-//    protected ImageView arrowImage;
-    protected TextView valueLabel;
-    private Drawable arrow;
+    private RotateDrawable arrow;
     protected Node source, target;
     protected PortToken direction;
 
@@ -40,17 +38,18 @@ public class UnidirectionalPortView extends RelativeLayout {
     }
 
     protected void initialize(Context context){
-        valueLabel = new TextView(context);
-        addView(valueLabel);
-        createDrawable(context, false);
+        createDrawable(context);
+        setTextColor(Color.WHITE);
+    }
+
+    private void updateArrow(boolean filled){
+        arrow.setDrawable(getContext().getDrawable(filled ? R.drawable.arrow_occupied : R.drawable.arrow_empty));
     }
 
 
-
-    public void createDrawable(Context context, boolean filled){
+    public void createDrawable(Context context){
         RotateDrawable left = null, top = null, right = null, bottom = null;
-        Drawable arrow_empty = context.getDrawable(filled ? R.drawable.arrow_occupied : R.drawable.arrow_empty);
-
+        Drawable arrow_empty = context.getDrawable(R.drawable.arrow_empty);
         switch (direction) {
             case UP:
                 right = new RotateDrawable();
@@ -58,11 +57,7 @@ public class UnidirectionalPortView extends RelativeLayout {
                 right.setFromDegrees(0);
                 right.setToDegrees(-90);
                 arrow = right;
-//                setVerticalGravity(CENTER_VERTICAL);
-//                setHorizontalGravity(Gravity.END);
-//                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                lp.addRule(ALIGN_PARENT_BOTTOM);
-//                valueLabel.setLayoutParams(lp);
+                setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
                 break;
             case DOWN:
                 left = new RotateDrawable();
@@ -70,8 +65,7 @@ public class UnidirectionalPortView extends RelativeLayout {
                 left.setFromDegrees(0);
                 left.setToDegrees(90);
                 arrow = left;
-//                setVerticalGravity(CENTER_VERTICAL);
-//                setHorizontalGravity(Gravity.START);
+                setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
                 break;
             case LEFT:
                 top = new RotateDrawable();
@@ -79,32 +73,21 @@ public class UnidirectionalPortView extends RelativeLayout {
                 top.setFromDegrees(0);
                 top.setToDegrees(180);
                 arrow = top;
-//                setVerticalGravity(Gravity.TOP);
                 break;
             case RIGHT:
                 bottom = new RotateDrawable();
                 bottom.setDrawable(arrow_empty);
                 arrow = bottom;
-//                setVerticalGravity(Gravity.BOTTOM);
+                setGravity(Gravity.BOTTOM);
                 break;
         }
 
         arrow.setBounds(0, 0, 64, 64);
         arrow.setLevel(10000);
-
-        valueLabel.setCompoundDrawables(left, top, right, bottom);
-        valueLabel.setText("999");
         setTextAlignment(TEXT_ALIGNMENT_CENTER);
-
-//        valueLabel.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-//        valueLabel.setGravity(CENTER_VERTICAL);
-        valueLabel.setBackgroundColor(Color.BLUE);
+        setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
     }
 
-
-    public boolean isValidPort(PortToken dir){
-        return dir != null && (dir.equals(PortToken.ANY) || dir.equals(direction) || dir.equals(direction.reverse()));
-    }
 
     public void update(){
         if (direction == null) {
@@ -122,15 +105,14 @@ public class UnidirectionalPortView extends RelativeLayout {
         boolean writing = sourceWrite != null && (sourceWrite.equals(direction) || sourceWrite.equals(PortToken.ANY));
         boolean reading = targetRead != null && (targetRead.equals(direction.reverse()) || targetRead.equals(PortToken.ANY));
 
-//        updateDrawable(getContext(), writing || reading);
-//        arrowImage.setImageResource(writing || reading ? R.drawable.arrow_occupied : R.drawable.arrow_empty);
+        updateArrow(writing || reading);
 
-//        if (writing){
-//            valueLabel.setText(String.valueOf(source.getState().getWritingValue()));
-//        }else if (reading){
-//            valueLabel.setText("?");
-//        }else{
-//            valueLabel.setText("");
-//        }
+        if (writing){
+            setText(String.valueOf(source.getState().getWritingValue()));
+        }else if (reading){
+            setText("?");
+        }else{
+            setText("");
+        }
     }
 }

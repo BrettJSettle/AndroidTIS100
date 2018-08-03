@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="38sp"
-    android:layout_height="@dimen/node_size"
+    android:layout_height="150dp"
     android:background="@android:color/white"
     android:orientation="vertical">
 
@@ -20,7 +20,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:background="@color/background">
 
         <LinearLayout
             android:id="@+id/io_column_layout"
