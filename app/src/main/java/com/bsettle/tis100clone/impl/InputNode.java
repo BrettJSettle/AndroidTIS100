@@ -7,13 +7,14 @@ import java.util.Iterator;
 import java.util.Vector;
 
 public class InputNode extends Node {
-    private int inputLine = 0;
+    private int inputLine = -1;
     private Vector<Integer> input;
 
     public InputNode(Vector<Integer> input){
         super(new NodeState());
         this.input = input;
     }
+
     @Override
     public HashMap<String, Object> getDiff() {
         if (!isRunning()){
@@ -34,9 +35,15 @@ public class InputNode extends Node {
     }
 
     @Override
+    public void activate() {
+        super.activate();
+        inputLine = 0;
+    }
+
+    @Override
     public void reset() {
         super.reset();
-        inputLine = 0;
+        inputLine = -1;
         commit(NodeState.WRITING_PORT, null);
         push();
     }

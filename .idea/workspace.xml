@@ -14,9 +14,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2da61514-6fb0-4d13-bd30-0b4d200c3629" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/assets/Big Game.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/OutputNode.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" />
@@ -26,19 +23,18 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/Triple Threat.json" afterPath="$PROJECT_DIR$/app/src/main/assets/Triple Threat.json" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/levels.json" afterPath="$PROJECT_DIR$/app/src/main/assets/levels.json" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelSelectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelSelectActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/IOColumnInfo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/IOColumnInfo.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/event/ControlHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/event/ControlHandler.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/InputNode.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/InputNode.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/level/LevelInfo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/level/LevelInfo.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/OutputNode.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/OutputNode.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/GameState.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/GameState.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/CommandEditorView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/CommandEditorView.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/ControlView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/ControlView.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOColumnView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOColumnView.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/InputView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/InputView.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_level.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_level.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/InputView.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/UnidirectionalPortView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/UnidirectionalPortView.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/control_view.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/control_view.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -62,25 +58,54 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LevelActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LevelActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="157" column="65" lean-forward="false" selection-start-line="157" selection-start-column="65" selection-end-line="157" selection-end-column="65" />
+            <state relative-caret-position="435">
+              <caret line="208" column="67" lean-forward="true" selection-start-line="208" selection-start-column="67" selection-end-line="208" selection-end-column="67" />
+              <folding>
+                <element signature="e#8781#9199#0" expanded="true" />
+                <element signature="e#9198#9199#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControlView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/ControlView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1931#1932#0" expanded="true" />
+                <element signature="e#2010#2011#0" expanded="true" />
+                <element signature="e#2751#2752#0" expanded="true" />
+                <element signature="e#2789#2790#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="control_view.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/control_view.xml">
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="23" column="4" lean-forward="false" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/GameState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="45" column="42" lean-forward="true" selection-start-line="45" selection-start-column="42" selection-end-line="45" selection-end-column="42" />
-              <folding>
-                <element signature="e#4420#4421#0" expanded="true" />
-                <element signature="e#4454#4455#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="302">
+              <caret line="129" column="26" lean-forward="false" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -88,24 +113,9 @@
       <file leaf-file-name="InputNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/InputNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="17" column="35" lean-forward="false" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+            <state relative-caret-position="-234">
+              <caret line="8" column="31" lean-forward="false" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OutputNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/OutputNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="30" column="5" lean-forward="false" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
-              <folding>
-                <element signature="e#967#968#0" expanded="true" />
-                <element signature="e#1000#1001#0" expanded="true" />
-                <element signature="e#1036#1037#0" expanded="true" />
-                <element signature="e#1083#1084#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -113,29 +123,18 @@
       <file leaf-file-name="IOPortView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+            <state relative-caret-position="183">
+              <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#464#465#0" expanded="true" />
-                <element signature="e#492#493#0" expanded="true" />
-                <element signature="e#690#691#0" expanded="true" />
-                <element signature="e#733#734#0" expanded="true" />
-                <element signature="e#775#776#0" expanded="true" />
-                <element signature="e#818#819#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OutputView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding>
-                <element signature="e#461#462#0" expanded="true" />
-                <element signature="e#508#509#0" expanded="true" />
+                <element signature="e#1113#1114#0" expanded="true" />
+                <element signature="e#1143#1144#0" expanded="true" />
+                <element signature="e#1177#1178#0" expanded="true" />
+                <element signature="e#1205#1206#0" expanded="true" />
+                <element signature="e#1238#1239#0" expanded="true" />
+                <element signature="e#1266#1267#0" expanded="true" />
+                <element signature="e#1363#1364#0" expanded="true" />
+                <element signature="e#1776#1777#0" expanded="true" />
+                <element signature="e#1819#1820#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,13 +143,21 @@
       <file leaf-file-name="IOColumnView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOColumnView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="74" column="24" lean-forward="true" selection-start-line="74" selection-start-column="24" selection-end-line="74" selection-end-column="24" />
+            <state relative-caret-position="220">
+              <caret line="84" column="36" lean-forward="false" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OutputNode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/OutputNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="46" column="24" lean-forward="false" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
               <folding>
-                <element signature="e#984#985#0" expanded="true" />
-                <element signature="e#1019#1020#0" expanded="true" />
-                <element signature="e#1982#1983#0" expanded="true" />
-                <element signature="e#2017#2018#0" expanded="true" />
+                <element signature="e#1330#1331#0" expanded="true" />
+                <element signature="e#1372#1373#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2204,9 +2211,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/port_view_right_left.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/CommandNodeState.java" />
         <option value="$PROJECT_DIR$/app/src/test/java/com/bsettle/tis100clone/NodeGridTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/event/ControlHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/reset_icon.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/ControlView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/CommandNodeView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/NodeState.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/CommandNode.java" />
@@ -2227,36 +2232,39 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/port_view_vertical.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/port_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/BidirectionalPortView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/UnidirectionalPortView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/io_column_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/PortView.java" />
         <option value="$PROJECT_DIR$/app/src/main/assets/levels.json" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelSelectActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/command_node_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/CommandEditorView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/PanView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_level.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/control_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/assets/Big Game.json" />
         <option value="$PROJECT_DIR$/app/src/main/assets/Triple Threat.json" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/level/LevelInfo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/InputNode.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/GameState.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/IOColumnInfo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelSelectActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/InputNode.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/UnidirectionalPortView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/GameState.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/InputView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOColumnView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/OutputNode.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/control_view.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/event/ControlHandler.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/ControlView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOColumnView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelActivity.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="22" />
-    <option name="width" value="1440" />
-    <option name="height" value="820" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-1920" />
+    <option name="y" value="-158" />
+    <option name="width" value="1920" />
+    <option name="height" value="929" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -2766,7 +2774,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="820" extended-state="6" />
+    <frame x="-1920" y="-158" width="1920" height="929" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32965517" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2777,15 +2785,15 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32965517" sideWeight="0.26824033" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32827586" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28417265" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32853717" sideWeight="0.49427754" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32965517" sideWeight="0.66452074" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28965518" sideWeight="0.73175967" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.185836" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28896883" sideWeight="0.73175967" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -2811,28 +2819,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/test/java/com/bsettle/tis100clone/NodeGridTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2625">
-          <caret line="189" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/test/java/com/bsettle/tis100clone/ReadWriteTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="63" column="42" lean-forward="false" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/level/LevelTileInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -2936,28 +2922,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/UnidirectionalPortView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/BidirectionalPortView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="6" column="47" lean-forward="false" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/CommandNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="114" column="13" lean-forward="false" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -3011,14 +2979,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelSelectActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="42" column="30" lean-forward="false" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/command_node_view.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -3042,25 +3002,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-5132">
           <caret line="25" column="57" lean-forward="false" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/ControlView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-188">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/control_view.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -3108,101 +3049,166 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelSelectActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="33" column="29" lean-forward="true" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/CommandNodeState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="23" column="11" lean-forward="false" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="33" column="19" lean-forward="false" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+          <folding>
+            <element signature="e#662#663#0" expanded="false" />
+            <element signature="e#689#690#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/UnidirectionalPortView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="107" column="34" lean-forward="false" selection-start-line="107" selection-start-column="34" selection-end-line="107" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/CommandNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="30" column="24" lean-forward="true" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/PortView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="70" column="147" lean-forward="false" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="147" />
+        <state relative-caret-position="448">
+          <caret line="106" column="25" lean-forward="false" selection-start-line="106" selection-start-column="25" selection-end-line="106" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/GameState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="129" column="26" lean-forward="false" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/InputView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="41" column="58" lean-forward="false" selection-start-line="41" selection-start-column="58" selection-end-line="41" selection-end-column="58" />
-          <folding>
-            <element signature="e#725#909#0" expanded="true" />
-            <element signature="e#908#909#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#464#465#0" expanded="true" />
-            <element signature="e#492#493#0" expanded="true" />
-            <element signature="e#690#691#0" expanded="true" />
-            <element signature="e#733#734#0" expanded="true" />
-            <element signature="e#775#776#0" expanded="true" />
-            <element signature="e#818#819#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOColumnView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="74" column="24" lean-forward="true" selection-start-line="74" selection-start-column="24" selection-end-line="74" selection-end-column="24" />
-          <folding>
-            <element signature="e#984#985#0" expanded="true" />
-            <element signature="e#1019#1020#0" expanded="true" />
-            <element signature="e#1982#1983#0" expanded="true" />
-            <element signature="e#2017#2018#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#461#462#0" expanded="true" />
-            <element signature="e#508#509#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="157" column="65" lean-forward="false" selection-start-line="157" selection-start-column="65" selection-end-line="157" selection-end-column="65" />
+        <state relative-caret-position="270">
+          <caret line="35" column="5" lean-forward="false" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/InputNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="17" column="35" lean-forward="false" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+        <state relative-caret-position="-234">
+          <caret line="8" column="31" lean-forward="false" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/impl/OutputNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="30" column="5" lean-forward="false" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
+        <state relative-caret-position="351">
+          <caret line="46" column="24" lean-forward="false" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
           <folding>
-            <element signature="e#967#968#0" expanded="true" />
-            <element signature="e#1000#1001#0" expanded="true" />
-            <element signature="e#1036#1037#0" expanded="true" />
-            <element signature="e#1083#1084#0" expanded="true" />
+            <element signature="e#1330#1331#0" expanded="true" />
+            <element signature="e#1372#1373#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/state/GameState.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/control_view.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="23" column="4" lean-forward="false" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/event/ControlHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="45" column="42" lean-forward="true" selection-start-line="45" selection-start-column="42" selection-end-line="45" selection-end-column="42" />
+        <state relative-caret-position="45">
+          <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/OutputView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="21" column="8" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/ControlView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
           <folding>
-            <element signature="e#4420#4421#0" expanded="true" />
-            <element signature="e#4454#4455#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1931#1932#0" expanded="true" />
+            <element signature="e#2010#2011#0" expanded="true" />
+            <element signature="e#2751#2752#0" expanded="true" />
+            <element signature="e#2789#2790#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOColumnView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="84" column="36" lean-forward="false" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/view/IOPortView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <element signature="e#1113#1114#0" expanded="true" />
+            <element signature="e#1143#1144#0" expanded="true" />
+            <element signature="e#1177#1178#0" expanded="true" />
+            <element signature="e#1205#1206#0" expanded="true" />
+            <element signature="e#1238#1239#0" expanded="true" />
+            <element signature="e#1266#1267#0" expanded="true" />
+            <element signature="e#1363#1364#0" expanded="true" />
+            <element signature="e#1776#1777#0" expanded="true" />
+            <element signature="e#1819#1820#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bsettle/tis100clone/LevelActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="208" column="67" lean-forward="true" selection-start-line="208" selection-start-column="67" selection-end-line="208" selection-end-column="67" />
+          <folding>
+            <element signature="e#8781#9199#0" expanded="true" />
+            <element signature="e#9198#9199#0" expanded="true" />
           </folding>
         </state>
       </provider>

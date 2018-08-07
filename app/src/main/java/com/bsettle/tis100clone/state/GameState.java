@@ -9,6 +9,7 @@ import com.bsettle.tis100clone.impl.IOColumnInfo;
 import com.bsettle.tis100clone.impl.InputNode;
 import com.bsettle.tis100clone.impl.NodeCollection;
 import com.bsettle.tis100clone.impl.NodeGrid;
+import com.bsettle.tis100clone.impl.OutputNode;
 import com.bsettle.tis100clone.impl.PortToken;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelInfo.*;
@@ -29,7 +30,7 @@ public class GameState {
     @SuppressLint("UseSparseArrays")
     private HashMap<Integer, InputNode> inputNodes = new HashMap<>();
     @SuppressLint("UseSparseArrays")
-    private HashMap<Integer, Node> outputNodes = new HashMap<>();
+    private HashMap<Integer, OutputNode> outputNodes = new HashMap<>();
 
     public GameState(LevelInfo info){
         this.info = info;
@@ -57,21 +58,34 @@ public class GameState {
         int rowCount = info.getRows();
         for (IOColumnInfo outputInfo : info.getOutputColumns()){
             int n = outputInfo.getColumn();
-            Node outputNode = nodeGrid.getNode(rowCount-1, n);
+            OutputNode outputNode = new OutputNode(outputInfo.getValues());
+            Node.connectNodes(nodeGrid.getNode(rowCount-1, n), PortToken.DOWN, outputNode);
             outputNodes.put(n, outputNode);
         }
 
     }
 
     private HashMap<Node, Integer> ioDiff(){
+
         HashMap<Node, Integer> outputs = new HashMap<>();
-        for (Node outputNode : outputNodes.values()){
+//        for (Node outputNode : outputNodes.values()){
+//            outputNode.getDiff();
+//            PortToken outPort = outputNode.getState().getWritingPort();
+//            if (outPort != null && (outPort.equals(PortToken.ANY) || outPort.equals(PortToken.DOWN))){
+//                outputs.put(outputNode, outputNode.getState().getWritingValue());
+//                outputNode.writeFinished(outPort);
+//            }
+//        }
+//
+        for (OutputNode outputNode : outputNodes.values()){
+            outputNode.getDiff();
             PortToken outPort = outputNode.getState().getWritingPort();
             if (outPort != null && (outPort.equals(PortToken.ANY) || outPort.equals(PortToken.DOWN))){
                 outputs.put(outputNode, outputNode.getState().getWritingValue());
                 outputNode.writeFinished(outPort);
             }
         }
+
 
         for (InputNode inputNode : inputNodes.values()){
             inputNode.getDiff();
@@ -94,6 +108,10 @@ public class GameState {
             inputNode.push();
         }
 
+        for (OutputNode outputNode : outputNodes.values()){
+            outputNode.push();
+        }
+
         for (Node node : nodeGrid.nodeIterator()) {
             node.push();
         }
@@ -108,6 +126,9 @@ public class GameState {
         for (InputNode inputNode : inputNodes.values()){
             inputNode.reset();
         }
+        for (OutputNode outputNode : outputNodes.values()){
+            outputNode.reset();
+        }
 
         running = false;
     }
@@ -120,6 +141,9 @@ public class GameState {
         for (InputNode inputNode : inputNodes.values()){
             inputNode.reset();
         }
+        for (OutputNode outputNode : outputNodes.values()){
+            outputNode.reset();
+        }
 
         running = false;
     }
@@ -131,6 +155,10 @@ public class GameState {
 
         for (InputNode inputNode : inputNodes.values()){
             inputNode.activate();
+        }
+
+        for (OutputNode outputNode : outputNodes.values()){
+            outputNode.activate();
         }
 
         running = true;
@@ -152,7 +180,7 @@ public class GameState {
         return inputNodes;
     }
 
-    public final HashMap<Integer, Node> getOutputNodes(){
+    public final HashMap<Integer, OutputNode> getOutputNodes(){
         return outputNodes;
     }
 

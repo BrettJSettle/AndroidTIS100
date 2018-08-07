@@ -12,7 +12,7 @@ import com.bsettle.tis100clone.R;
 import com.bsettle.tis100clone.event.ControlHandler;
 
 public class ControlView extends LinearLayout implements View.OnClickListener{
-    private ImageButton playPauseButton, stepButton, stopButton;
+    private ImageButton playButton, stepPauseButton, stopButton;
     private boolean running = false;
     private ControlHandler handler;
 
@@ -36,12 +36,12 @@ public class ControlView extends LinearLayout implements View.OnClickListener{
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.control_view, this);
 
-        playPauseButton = findViewById(R.id.playButton);
-        stepButton = findViewById(R.id.stepButton);
+        playButton = findViewById(R.id.playButton);
+        stepPauseButton = findViewById(R.id.stepButton);
         stopButton = findViewById(R.id.stopButton);
 
-        playPauseButton.setOnClickListener(this);
-        stepButton.setOnClickListener(this);
+        playButton.setOnClickListener(this);
+        stepPauseButton.setOnClickListener(this);
         stopButton.setOnClickListener(this);
     }
 
@@ -59,42 +59,31 @@ public class ControlView extends LinearLayout implements View.OnClickListener{
         handler.controlButtonClicked(ControlHandler.ControlButton.STOP);
         setRunning(false);
     }
-    private void reset(){
-        handler.controlButtonClicked(ControlHandler.ControlButton.RESET);
-    }
 
     private void step(){
         handler.controlButtonClicked(ControlHandler.ControlButton.STEP);
-        setRunning(true);
     }
 
     private void setRunning(boolean running){
         this.running = running;
-        Drawable play_pause = running ? getResources().getDrawable(R.drawable.pause_icon, getResources().newTheme()) :
-                getResources().getDrawable(R.drawable.play_icon, getResources().newTheme());
-        playPauseButton.setImageDrawable(play_pause);
 
-        Drawable stop_reset = running ? getResources().getDrawable(R.drawable.stop_icon, getResources().newTheme()) :
-                getResources().getDrawable(R.drawable.reset_icon, getResources().newTheme());
-        stopButton.setImageDrawable(stop_reset);
+        Drawable step_pause = running ? getResources().getDrawable(R.drawable.pause_icon, getResources().newTheme()) :
+                getResources().getDrawable(R.drawable.step_icon, getResources().newTheme());
+        stepPauseButton.setImageDrawable(step_pause);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.equals(playPauseButton)){
+        if (v.equals(playButton)){
+            play();
+        }else if (v.equals(stepPauseButton)){
             if (running){
                 pause();
-            }else{
-                play();
+            }else {
+                step();
             }
-        }else if (v.equals(stepButton)){
-            step();
         }else if (v.equals(stopButton)){
-            if (running){
-                stop();
-            }else{
-                reset();
-            }
+            stop();
         }
     }
 

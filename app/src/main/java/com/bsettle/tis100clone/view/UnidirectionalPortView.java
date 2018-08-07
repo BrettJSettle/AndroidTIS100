@@ -14,7 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bsettle.tis100clone.R;
+import com.bsettle.tis100clone.impl.InputNode;
 import com.bsettle.tis100clone.impl.Node;
+import com.bsettle.tis100clone.impl.OutputNode;
 import com.bsettle.tis100clone.impl.PortToken;
 
 public class UnidirectionalPortView extends android.support.v7.widget.AppCompatTextView {
@@ -99,7 +101,7 @@ public class UnidirectionalPortView extends android.support.v7.widget.AppCompatT
             sourceWrite = source.getState().getWritingPort();
         }
         PortToken targetRead = null;
-        if (target != null){
+        if (target != null && !(target instanceof OutputNode)){
             targetRead = target.getState().getReadingPort();
         }
         boolean writing = sourceWrite != null && (sourceWrite.equals(direction) || sourceWrite.equals(PortToken.ANY));

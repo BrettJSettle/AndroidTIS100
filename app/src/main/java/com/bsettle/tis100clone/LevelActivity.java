@@ -1,38 +1,36 @@
 package com.bsettle.tis100clone;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bsettle.tis100clone.event.ControlHandler;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.InputNode;
 import com.bsettle.tis100clone.impl.Node;
-import com.bsettle.tis100clone.impl.PortToken;
+import com.bsettle.tis100clone.impl.OutputNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
 import com.bsettle.tis100clone.state.GameState;
 import com.bsettle.tis100clone.view.BidirectionalPortView;
 import com.bsettle.tis100clone.view.ControlView;
 import com.bsettle.tis100clone.view.CommandNodeView;
-import com.bsettle.tis100clone.view.InputView;
-import com.bsettle.tis100clone.view.OutputView;
-import com.bsettle.tis100clone.view.PanView;
+import com.bsettle.tis100clone.view.IOPortView;
 import com.bsettle.tis100clone.view.PortView;
-import com.bsettle.tis100clone.view.UnidirectionalPortView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -48,8 +46,8 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
     private GridLayout gridLayout;
     private CommandNodeView[][] nodeViewGrid;
     private Vector<PortView> portViews;
-    private Vector<InputView> inputViews;
-    private Vector<OutputView> outputViews;
+    private Vector<IOPortView> inputViews;
+    private Vector<IOPortView> outputViews;
     private GameState gameState;
 
     private boolean playing = false;
@@ -60,7 +58,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         setContentView(R.layout.activity_level);
         gridLayout = findViewById(R.id.gridLayout);
         ControlView controlView = findViewById(R.id.buttonView);
-//        PanView panView = findViewById(R.id.scrollView);
         controlView.setHandler(this);
 
         Intent intent = getIntent();
@@ -147,19 +144,21 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         for (Map.Entry<Integer, InputNode> entry : gameState.getInputNodes().entrySet()){
             int column = entry.getKey();
             InputNode inputNode = entry.getValue();
-            InputView inputPortView = new InputView(this, "IN." + String.valueOf(name), inputNode, gameState.getNode(0, column));
+            IOPortView inputPortView = new IOPortView(this, String.valueOf(name), inputNode, gameState.getNode(0, column));
+            inputPortView.setData(inputNode.iter());
             addView(inputPortView, 0, column * 2);
             inputViews.add(inputPortView);
             portViews.add(inputPortView);
             name++;
         }
 
+        int lastRow = gameState.getLevelInfo().getRows()-1;
         name = 'A';
-        for (Map.Entry<Integer, Node> entry : gameState.getOutputNodes().entrySet()){
+        for (Map.Entry<Integer, OutputNode> entry : gameState.getOutputNodes().entrySet()){
             int column = entry.getKey();
-            Node outputNode = entry.getValue();
-            OutputView outputPortView = new OutputView(this, "OUT." + String.valueOf(name), outputNode);
-
+            OutputNode outputNode = entry.getValue();
+            IOPortView outputPortView = new IOPortView(this, String.valueOf(name), gameState.getNode(lastRow, column), outputNode);
+            outputPortView.setData(outputNode.iter());
             addView(outputPortView, gridLayout.getRowCount()-1, column * 2);
             outputViews.add(outputPortView);
             portViews.add(outputPortView);
@@ -200,12 +199,20 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         }
 
         for (PortView pv : portViews){
-            pv.update();
-            if (pv instanceof OutputView){
-                Node op = ((OutputView) pv).getSourceNode();
-                if(output != null && output.containsKey(op)){
-                    ((OutputView) pv).addOutput(output.get(op));
+            if (pv instanceof IOPortView && !((IOPortView) pv).isInput()){
+                IOPortView iopv = ((IOPortView) pv);
+                TextView tv = iopv.getCurrentTextView();
+                pv.update();
+                if (tv != null) {
+                    OutputNode on = (OutputNode) iopv.getTargetNode();
+                    int exp = on.getExpectedValue();
+                    if (output != null && output.containsKey(on)) {
+                        String result = String.format(Locale.getDefault(), "%d/%d", exp, output.get(on));
+                        tv.setText(result);
+                    }
                 }
+            }else {
+                pv.update();
             }
         }
     }
@@ -235,7 +242,32 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         r.run();
     }
 
+    private void askReset(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int choice) {
+                switch (choice) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        reset();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Reset the program?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
     public void stop(){
+        if (!gameState.isRunning()){
+            askReset();
+            return;
+        }
+
         playing = false;
         gameState.reset();
 
@@ -248,7 +280,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             pv.update();
         }
 
-//        ioView.restart();
     }
 
     public void reset(){
@@ -276,13 +307,10 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                 playing = false;
                 break;
             case PLAY:
-//                play();
+                play();
                 break;
             case STEP:
                 step();
-                break;
-            case RESET:
-                reset();
                 break;
         }
     }
