@@ -19,13 +19,14 @@
         android:textStyle="bold" />
 
     <ScrollView
+        android:id="@+id/io_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="2dp"
         android:background="@color/background">
 
         <LinearLayout
-            android:id="@+id/io_column_layout"
+            android:id="@+id/io_column_rows"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background"

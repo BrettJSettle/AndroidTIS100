@@ -6,15 +6,18 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bsettle.tis100clone.R;
+import com.bsettle.tis100clone.state.Activatable;
 
 import java.util.Locale;
 import java.util.Vector;
 
 public class IOColumnView extends LinearLayout {
-    private LinearLayout columnLayout;
+    private LinearLayout rowLayout;
+    private ScrollView rowScroll;
     private TextView headerView;
     private Vector<TextView> lines = new Vector<>();
     private int selectedLine = -1;
@@ -34,8 +37,6 @@ public class IOColumnView extends LinearLayout {
         initialize(context);
     }
 
-
-
     private void initialize(Context context){
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,7 +44,9 @@ public class IOColumnView extends LinearLayout {
 
         headerView = findViewById(R.id.header);
         headerView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        columnLayout = findViewById(R.id.io_column_layout);
+        rowLayout = findViewById(R.id.io_column_rows);
+        rowScroll = findViewById(R.id.io_scroll);
+        rowScroll.setVerticalScrollBarEnabled(false);
     }
 
     public void setHeader(String header){
@@ -59,7 +62,7 @@ public class IOColumnView extends LinearLayout {
         tv.setTextColor(Color.WHITE);
         tv.setText(i);
         tv.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-        columnLayout.addView(tv);
+        rowLayout.addView(tv);
         lines.add(tv);
         return tv;
     }
@@ -71,8 +74,9 @@ public class IOColumnView extends LinearLayout {
     }
 
     public void clear(){
-        columnLayout.removeAllViews();
+        rowLayout.removeAllViews();
         lines.clear();
+        rowScroll.setScrollY(0);
     }
 
     public void setData(Vector<Integer> nums){
@@ -92,9 +96,15 @@ public class IOColumnView extends LinearLayout {
             lines.get(selectedLine).setTextColor(Color.WHITE);
         }
         selectedLine = line;
-        if (line >= 0 && line < lines.size()) {
+        if (line < 0) {
+            rowScroll.setScrollY(0);
+        }else if (line < lines.size()) {
             lines.get(line).setBackgroundColor(Color.WHITE);
             lines.get(line).setTextColor(Color.BLACK);
+            int s = lines.get(line).getHeight() * Math.max(0, line - 3);
+            rowScroll.setScrollY(s);
         }
+
+
     }
 }

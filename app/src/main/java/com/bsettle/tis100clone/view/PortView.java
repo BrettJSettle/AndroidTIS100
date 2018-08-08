@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.bsettle.tis100clone.R;
 import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.PortToken;
+import com.bsettle.tis100clone.state.Activatable;
 
 public abstract class PortView extends LinearLayout {
 
@@ -43,17 +44,8 @@ public abstract class PortView extends LinearLayout {
 
     private void init(){
 
-//        float height = getResources().getDimension(R.dimen.port_size);
-//        float width = getResources().getDimension(R.dimen.port_size);
-//
-//        if (orientation == LinearLayout.HORIZONTAL){
-//            height = getResources().getDimension(R.dimen.node_size) / 2;
-//        }else if (orientation == LinearLayout.VERTICAL){
-//            width = getResources().getDimension(R.dimen.node_size) / 2;
-//        }
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER_VERTICAL;
-//        ConstraintLayout.LayoutParams params = new Constraints.LayoutParams((int)width, (int)height);
         setLayoutParams(params);
 
         setOrientation(orientation);
@@ -63,13 +55,11 @@ public abstract class PortView extends LinearLayout {
 
 
     LinearLayout.LayoutParams getViewAParams(){
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        params.leftToRight = getViewB().getId();
-        return params;
+        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
+
     LinearLayout.LayoutParams getViewBParams(){
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        return params;
+        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
 
