@@ -14,6 +14,7 @@ import com.bsettle.tis100clone.impl.PortToken;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelInfo.*;
 import com.bsettle.tis100clone.impl.Node;
+import com.bsettle.tis100clone.view.PortView;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -65,23 +66,13 @@ public class GameState {
 
     }
 
-    private HashMap<Node, Integer> ioDiff(){
+    private void ioDiff(){
 
-        HashMap<Node, Integer> outputs = new HashMap<>();
-//        for (Node outputNode : outputNodes.values()){
-//            outputNode.getDiff();
-//            PortToken outPort = outputNode.getState().getWritingPort();
-//            if (outPort != null && (outPort.equals(PortToken.ANY) || outPort.equals(PortToken.DOWN))){
-//                outputs.put(outputNode, outputNode.getState().getWritingValue());
-//                outputNode.writeFinished(outPort);
-//            }
-//        }
-//
+
         for (OutputNode outputNode : outputNodes.values()){
             outputNode.getDiff();
             PortToken outPort = outputNode.getState().getWritingPort();
             if (outPort != null && (outPort.equals(PortToken.ANY) || outPort.equals(PortToken.DOWN))){
-                outputs.put(outputNode, outputNode.getState().getWritingValue());
                 outputNode.writeFinished(outPort);
             }
         }
@@ -90,15 +81,14 @@ public class GameState {
         for (InputNode inputNode : inputNodes.values()){
             inputNode.getDiff();
         }
-        return outputs;
     }
 
-    public HashMap<Node, Integer> step() {
+    public void step() {
 
         if (!running) {
-            return new HashMap<>();
+            return;
         }
-        HashMap<Node, Integer> outputs = ioDiff();
+        ioDiff();
 
         for (Node node : nodeGrid.nodeIterator()) {
             node.getDiff();
@@ -116,7 +106,6 @@ public class GameState {
             node.push();
         }
 
-        return outputs;
     }
 
     public void reset() {

@@ -2,6 +2,7 @@ package com.bsettle.tis100clone.impl;
 
 import com.bsettle.tis100clone.state.CommandNodeState;
 import com.bsettle.tis100clone.state.NodeState;
+import com.bsettle.tis100clone.view.IOPortView;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,12 +11,13 @@ import java.util.Vector;
 public class OutputNode extends CommandNode {
     private int outputLine = -1;
     private Vector<Integer> expected;
-    private Integer outputValue = null;
+    private Vector<Integer> output;
 
     public OutputNode(Vector<Integer> expected){
         super();
         this.expected = expected;
-        setCommand(0, "MOV UP ACC");
+        output = new Vector<>();
+        setCommand(0, "MOV UP NIL");
     }
     @Override
     public HashMap<String, Object> getDiff() {
@@ -29,8 +31,9 @@ public class OutputNode extends CommandNode {
     @Override
     public void push() {
         if (diff.containsKey(CommandNodeState.MODE) && diff.get(CommandNodeState.MODE).equals(Mode.RUN)){
-            outputLine++;
-            outputValue = getState().getAccumulator();
+            Node inputNode = neighbors.get(PortToken.UP);
+            Integer val = inputNode.getState().getWritingValue();
+            output.add(val);
         }
         super.push();
     }
@@ -45,19 +48,35 @@ public class OutputNode extends CommandNode {
     public void reset() {
         super.reset();
         outputLine = -1;
+        output = new Vector<>();
         commit(NodeState.WRITING_PORT, null);
         push();
     }
 
-    public int getOutputLine(){
+    public Integer getOutputValue() {
+        return outputLine >= 0 && outputLine < output.size() ? output.get(outputLine) : null;
+    }
+
+    public Integer getOutputLine(){
         return outputLine;
+    }
+
+    public int nextLine() {
+        return ++outputLine;
     }
 
     public Iterator<Integer> iter() {
         return expected.iterator();
     }
 
-    public int getExpectedValue(){
-        return expected.get(outputLine);
+    public Integer getExpectedValue(){
+        return outputLine >= 0 && outputLine < expected.size() ? expected.get(outputLine) : null;
+    }
+
+    public Boolean checkOutput(){
+        if (outputLine < 0 || outputLine >= output.size() || outputLine >= expected.size()){
+            return null;
+        }
+        return output.get(outputLine) == expected.get(outputLine);
     }
 }

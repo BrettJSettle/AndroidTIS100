@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
+import android.text.Editable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
 import com.bsettle.tis100clone.state.GameState;
 import com.bsettle.tis100clone.view.BidirectionalPortView;
+import com.bsettle.tis100clone.view.CommandEditorView;
 import com.bsettle.tis100clone.view.ControlView;
 import com.bsettle.tis100clone.view.CommandNodeView;
 import com.bsettle.tis100clone.view.IOPortView;
@@ -46,8 +49,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
     private GridLayout gridLayout;
     private CommandNodeView[][] nodeViewGrid;
     private Vector<PortView> portViews;
-    private Vector<IOPortView> inputViews;
-    private Vector<IOPortView> outputViews;
     private GameState gameState;
 
     private boolean playing = false;
@@ -137,8 +138,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         if (portViews == null){
             portViews = new Vector<>();
         }
-        inputViews = new Vector<>();
-        outputViews = new Vector<>();
 
         char name = 'A';
         for (Map.Entry<Integer, InputNode> entry : gameState.getInputNodes().entrySet()){
@@ -147,7 +146,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             IOPortView inputPortView = new IOPortView(this, String.valueOf(name), inputNode, gameState.getNode(0, column));
             inputPortView.setData(inputNode.iter());
             addView(inputPortView, 0, column * 2);
-            inputViews.add(inputPortView);
             portViews.add(inputPortView);
             name++;
         }
@@ -160,7 +158,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             IOPortView outputPortView = new IOPortView(this, String.valueOf(name), gameState.getNode(lastRow, column), outputNode);
             outputPortView.setData(outputNode.iter());
             addView(outputPortView, gridLayout.getRowCount()-1, column * 2);
-            outputViews.add(outputPortView);
             portViews.add(outputPortView);
             name++;
         }
@@ -179,17 +176,17 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         }
     }
 
+
     private void step(){
-        HashMap<Node, Integer> output = null;
+
         if (!gameState.isRunning()){
             gameState.activate();
 
             if (getCurrentFocus() != null) {
                 getCurrentFocus().clearFocus();
             }
-
         }else {
-            output = gameState.step();
+            gameState.step();
         }
 
         for (CommandNodeView[] row : nodeViewGrid){
@@ -198,22 +195,9 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             }
         }
 
+
         for (PortView pv : portViews){
-            if (pv instanceof IOPortView && !((IOPortView) pv).isInput()){
-                IOPortView iopv = ((IOPortView) pv);
-                TextView tv = iopv.getCurrentTextView();
-                pv.update();
-                if (tv != null) {
-                    OutputNode on = (OutputNode) iopv.getTargetNode();
-                    int exp = on.getExpectedValue();
-                    if (output != null && output.containsKey(on)) {
-                        String result = String.format(Locale.getDefault(), "%d/%d", exp, output.get(on));
-                        tv.setText(result);
-                    }
-                }
-            }else {
-                pv.update();
-            }
+            pv.update();
         }
     }
 
@@ -294,7 +278,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         for (PortView pv : portViews){
             pv.update();
         }
-//        ioView.restart();
     }
 
     @Override

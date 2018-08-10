@@ -100,27 +100,6 @@ public class CommandEditorView extends LimitedEditText {
     public void highlightLine(int line){
         highlightedLine = line;
         invalidate();
-//        getText().removeSpan(span);
-//        span = null;
-//
-//        if (line < 0){
-//            return;
-//        }
-//
-//        String s = getText().toString();
-//        int start = 0;
-//        for (int i = 0; i < s.length() && line > 0; i++){
-//            if (s.charAt(i) == '\n'){
-//                line--;
-//                start = i + 1;
-//            }
-//        }
-//        int end = s.indexOf("\n", start);
-//        logger.info("HIGHLIGHT: " + line + " " + start + " " + end);
-//        span = new BackgroundColorSpan(Color.BLUE);
-//        if (end > start) {
-//            getText().setSpan(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
     }
 
     @Override

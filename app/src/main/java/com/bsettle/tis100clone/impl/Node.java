@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public abstract class Node{
 
-    private HashMap<PortToken, Node> neighbors;
+    protected HashMap<PortToken, Node> neighbors;
 	protected NodeState state;
 	private boolean running = false;
 

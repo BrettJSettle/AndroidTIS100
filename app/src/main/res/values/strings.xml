@@ -96,9 +96,7 @@
 
     <!-- port view -->
     <string name="port_arrow_description">Port Arrow</string>
-    <string name="port_path">M 4 10 V 14 H 12 V 18 L 20 12 L 12 6 V 10 z</string>
-    <string name="port_path2">M 2 4 V 20 L 22 12 z</string>
-
+    <string name="port_path">M 4 10 V 14 H 14 V 17 L 20 12 L 14 7 V 10 z</string>
 
     <!-- button view -->
     <string name="play_description">Play</string>

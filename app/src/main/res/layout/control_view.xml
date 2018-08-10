@@ -4,21 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/text"
     android:gravity="fill"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="@dimen/border_width">
 
     <ImageButton
         android:id="@+id/stopButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@android:color/darker_gray"
+        android:background="@color/background"
         android:contentDescription="@string/stop_description"
         app:srcCompat="@drawable/stop_icon" />
 
     <Space
-        android:layout_width="5dp"
+        android:layout_width="@dimen/border_width"
         android:layout_height="match_parent" />
 
     <ImageButton
@@ -26,12 +27,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@android:color/darker_gray"
+        android:background="@color/background"
         android:contentDescription="@string/step_description"
         app:srcCompat="@drawable/step_icon" />
 
     <Space
-        android:layout_width="5dp"
+        android:layout_width="@dimen/border_width"
         android:layout_height="match_parent" />
 
     <ImageButton
@@ -39,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@android:color/darker_gray"
+        android:background="@color/background"
         android:contentDescription="@string/play_description"
         app:srcCompat="@android:drawable/ic_media_play" />
 

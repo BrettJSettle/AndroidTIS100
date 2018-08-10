@@ -12,10 +12,11 @@ import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.OutputNode;
 
 import java.util.Iterator;
+import java.util.Locale;
 
 public class IOPortView extends PortView {
 
-    private boolean isInput = false;
+    protected boolean isInput = false;
 
     public IOPortView(Context context, String header, InputNode source, Node target) {
         super(context, LinearLayout.HORIZONTAL, source, target);
@@ -84,12 +85,22 @@ public class IOPortView extends PortView {
         ((UnidirectionalPortView) viewB).update();
 
         IOColumnView iocv = getColumnView();
-        int selLine = -1;
         if (isInput){
-            selLine = ((InputNode) nodeA).getInputLine();
+            iocv.setSelectedLine(((InputNode) nodeA).getInputLine());
         }else{
-            selLine = ((OutputNode) nodeB).getOutputLine();
+            OutputNode node = ((OutputNode) nodeB);
+            Boolean res = node.checkOutput();
+            if (res != null) {
+                int exp = node.getExpectedValue();
+                int out = node.getOutputValue();
+                String s = String.format(Locale.getDefault(), "%d/%d", exp, out);
+                TextView tv = iocv.getCurrentRow();
+                tv.setText(s);
+                iocv.setSelectedLine(node.nextLine());
+                tv.setBackgroundColor(res ? Color.GREEN : Color.RED);
+            }else {
+                iocv.setSelectedLine(node.getOutputLine());
+            }
         }
-        iocv.setSelectedLine(selLine);
     }
 }

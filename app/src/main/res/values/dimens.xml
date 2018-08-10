@@ -2,4 +2,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="node_size">200dp</dimen>
     <dimen name="port_size">30dp</dimen>
+    <dimen name="border_width">3dp</dimen>
+    <dimen name="arrow_size">30dp</dimen>
 </resources>

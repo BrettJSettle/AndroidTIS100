@@ -57,11 +57,14 @@ public class CommandNodeView extends ConstraintLayout implements TextWatcher {
         commandEditor.addTextChangedListener(this);
     }
 
+    public CommandEditorView getCommandEditor(){
+        return commandEditor;
+    }
+
     public void setNode(CommandNode node){
         this.node = node;
         updateAll();
     }
-
 
     public CommandNode getNode(){
         return node;
