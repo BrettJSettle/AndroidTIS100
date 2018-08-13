@@ -110,5 +110,6 @@
     <string name="expected_column_name">EXP</string>
     <string name="output_column_name">OUT</string>
     <string name="title_activity_game_grid">GameGrid</string>
+    <string name="stack_node_text">Stack Node</string>
 
 </resources>

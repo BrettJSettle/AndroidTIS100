@@ -59,6 +59,7 @@ public class IOPortView extends PortView {
 
     public void setData(Iterator<Integer> values){
         int row = 0;
+        getColumnView().clear();
         while(values.hasNext()){
             int v = values.next();
             setRow(row++, String.valueOf(v));
@@ -97,7 +98,9 @@ public class IOPortView extends PortView {
                 TextView tv = iocv.getCurrentRow();
                 tv.setText(s);
                 iocv.setSelectedLine(node.nextLine());
-                tv.setBackgroundColor(res ? Color.GREEN : Color.RED);
+                if (!res) {
+                    tv.setBackgroundColor(Color.RED);
+                }
             }else {
                 iocv.setSelectedLine(node.getOutputLine());
             }

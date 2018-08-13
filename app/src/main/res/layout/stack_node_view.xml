@@ -1,0 +1,26 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.bsettle.tis100clone.view.StackNodeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#ccc" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/stack_node_text"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:background="@color/colorPrimary" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/text">
+
+        </LinearLayout>
+    </com.bsettle.tis100clone.view.StackNodeView>
+
+</merge>

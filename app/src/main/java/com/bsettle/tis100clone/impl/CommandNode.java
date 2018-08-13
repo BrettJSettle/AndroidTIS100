@@ -126,10 +126,6 @@ public class CommandNode extends Node {
 
             e.getDiff(this);
 
-            for (Map.Entry<String, Object> ent : diff.entrySet()){
-                System.out.println(ent.getKey() + " " + ent.getValue());
-            }
-
             if (diff.get(CommandNodeState.MODE).equals(getState().getMode())){
                 diff.remove(CommandNodeState.MODE);
             }

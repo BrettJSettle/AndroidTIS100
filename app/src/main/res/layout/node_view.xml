@@ -1,0 +1,18 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nodeHorizontalLayout"
+    android:layout_width="@dimen/node_size"
+    android:layout_height="@dimen/node_size"
+    android:background="@color/border"
+    tools:context=".view.NodeView"
+    android:padding="@dimen/border_width">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:id="@+id/nodeFrame">
+
+    </FrameLayout>
+
+</FrameLayout>

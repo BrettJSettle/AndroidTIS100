@@ -43,7 +43,6 @@ public abstract class InstructionExpression extends Expression {
         }
 
         Integer num = node.tryRead(currentPort);
-        System.out.println("TRY " + currentPort.toString() + " > " + num);
         if (num != null && port.equals(PortToken.ANY)){
             node.commit(CommandNodeState.READING_PORT, null);
         }

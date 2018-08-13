@@ -8,46 +8,36 @@ import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
-import android.text.Editable;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bsettle.tis100clone.event.ControlHandler;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.InputNode;
-import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.OutputNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
 import com.bsettle.tis100clone.state.GameState;
 import com.bsettle.tis100clone.view.BidirectionalPortView;
-import com.bsettle.tis100clone.view.CommandEditorView;
 import com.bsettle.tis100clone.view.ControlView;
 import com.bsettle.tis100clone.view.CommandNodeView;
 import com.bsettle.tis100clone.view.IOPortView;
+import com.bsettle.tis100clone.view.NodeView;
 import com.bsettle.tis100clone.view.PortView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
 
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class LevelActivity extends AppCompatActivity implements ControlHandler{
 
     private static Logger logger = Logger.getLogger("GridActivity");
     private GridLayout gridLayout;
-    private CommandNodeView[][] nodeViewGrid;
+    private NodeView[][] nodeViewGrid;
     private Vector<PortView> portViews;
     private GameState gameState;
 
@@ -85,17 +75,17 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         int rowNum = info.getRows();
         int colNum = info.getColumns();
 
-        nodeViewGrid = new CommandNodeView[rowNum][colNum];
+        nodeViewGrid = new NodeView[rowNum][colNum];
 
         gridLayout.setRowCount(2 * rowNum + 1);
         gridLayout.setColumnCount(2 * colNum - 1);
 
         for (int row = 0; row < rowNum; row++){
             for (int col = 0; col < colNum; col++){
-                CommandNodeView nv = new CommandNodeView(this);
-                if (gameState.getNode(row, col) instanceof CommandNode){
-                    nv.setNode((CommandNode) gameState.getNode(row, col));
-                }
+                NodeView nv = new NodeView(this);
+//                if (gameState.getNode(row, col) instanceof CommandNode){
+//                    nv.setNode((CommandNode) gameState.getNode(row, col));
+//                }
                 nodeViewGrid[row][col] = nv;
                 addView(nv, (row * 2) + 1, col * 2);
             }
@@ -189,9 +179,9 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             gameState.step();
         }
 
-        for (CommandNodeView[] row : nodeViewGrid){
-            for (CommandNodeView nodeView : row){
-                nodeView.updateAll();
+        for (NodeView[] row : nodeViewGrid){
+            for (NodeView nodeView : row){
+//                nodeView.updateAll();
             }
         }
 
@@ -207,14 +197,20 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         }
         playing = true;
 
-        Runnable r = new Runnable() {
+
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     if (!playing){
                         break;
                     }
-                    step();
+                    LevelActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            step();
+                        }
+                    });
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -222,8 +218,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                     }
                 }
             }
-        };
-        r.run();
+        }).start();
     }
 
     private void askReset(){
@@ -255,13 +250,20 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         playing = false;
         gameState.reset();
 
-        for (CommandNodeView[] row : nodeViewGrid){
-            for (CommandNodeView node : row){
-                node.updateAll();
+        for (NodeView[] row : nodeViewGrid){
+            for (NodeView node : row){
+//                node.updateAll();
             }
         }
         for (PortView pv : portViews){
-            pv.update();
+            if (pv instanceof IOPortView && !((IOPortView) pv).isInput()){
+                IOPortView iopv = (IOPortView) pv;
+                OutputNode on = (OutputNode) iopv.getTargetNode();
+                iopv.setData(on.iter());
+                pv.update();
+            }else{
+                pv.update();
+            }
         }
 
     }
@@ -269,14 +271,22 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
     public void reset(){
         gameState.clear();
 
-        for (CommandNodeView[] row : nodeViewGrid){
-            for (CommandNodeView node : row){
-                node.clear();
+        for (NodeView[] row : nodeViewGrid){
+            for (NodeView node : row){
+//                node.clear();
             }
         }
 
         for (PortView pv : portViews){
-            pv.update();
+
+            if (pv instanceof IOPortView && !((IOPortView) pv).isInput()){
+                IOPortView iopv = (IOPortView) pv;
+                OutputNode on = (OutputNode) iopv.getTargetNode();
+                iopv.setData(on.iter());
+                pv.update();
+            }else{
+                pv.update();
+            }
         }
     }
 
