@@ -15,20 +15,23 @@ import android.widget.Toast;
 import com.bsettle.tis100clone.event.ControlHandler;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.InputNode;
+import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.OutputNode;
+import com.bsettle.tis100clone.impl.StackNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
+import com.bsettle.tis100clone.view.NodeView;
 import com.bsettle.tis100clone.state.GameState;
 import com.bsettle.tis100clone.view.BidirectionalPortView;
-import com.bsettle.tis100clone.view.ControlView;
 import com.bsettle.tis100clone.view.CommandNodeView;
+import com.bsettle.tis100clone.view.ControlView;
 import com.bsettle.tis100clone.view.IOPortView;
-import com.bsettle.tis100clone.view.NodeView;
+import com.bsettle.tis100clone.view.NodeFrame;
 import com.bsettle.tis100clone.view.PortView;
+import com.bsettle.tis100clone.view.StackNodeView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -82,12 +85,21 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
 
         for (int row = 0; row < rowNum; row++){
             for (int col = 0; col < colNum; col++){
-                NodeView nv = new NodeView(this);
-//                if (gameState.getNode(row, col) instanceof CommandNode){
-//                    nv.setNode((CommandNode) gameState.getNode(row, col));
-//                }
-                nodeViewGrid[row][col] = nv;
-                addView(nv, (row * 2) + 1, col * 2);
+                NodeFrame nf = new NodeFrame(this);
+                Node n = gameState.getNode(row, col);
+
+                if (n instanceof CommandNode){
+                    CommandNodeView nv = new CommandNodeView(this);
+                    nodeViewGrid[row][col] = nv;
+                    nv.setNode(n);
+                    nf.addView(nv);
+                }else if (n instanceof StackNode){
+                    StackNodeView nv = new StackNodeView(this);
+                    nodeViewGrid[row][col] = nv;
+                    nv.setNode(n);
+                    nf.addView(nv);
+                }
+                addView(nf, (row * 2) + 1, col * 2);
             }
         }
     }
@@ -124,32 +136,32 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         }
     }
 
-    public void addIOViews(){
+    private void addIOViews(){
         if (portViews == null){
             portViews = new Vector<>();
         }
 
-        char name = 'A';
-        for (Map.Entry<Integer, InputNode> entry : gameState.getInputNodes().entrySet()){
-            int column = entry.getKey();
-            InputNode inputNode = entry.getValue();
-            IOPortView inputPortView = new IOPortView(this, String.valueOf(name), inputNode, gameState.getNode(0, column));
-            inputPortView.setData(inputNode.iter());
-            addView(inputPortView, 0, column * 2);
-            portViews.add(inputPortView);
-            name++;
-        }
-
+        char in_name = 'A', out_name = 'A';
         int lastRow = gameState.getLevelInfo().getRows()-1;
-        name = 'A';
-        for (Map.Entry<Integer, OutputNode> entry : gameState.getOutputNodes().entrySet()){
-            int column = entry.getKey();
-            OutputNode outputNode = entry.getValue();
-            IOPortView outputPortView = new IOPortView(this, String.valueOf(name), gameState.getNode(lastRow, column), outputNode);
-            outputPortView.setData(outputNode.iter());
-            addView(outputPortView, gridLayout.getRowCount()-1, column * 2);
-            portViews.add(outputPortView);
-            name++;
+
+        for (int col = 0; col < gameState.getLevelInfo().getColumns(); col++){
+            InputNode in_node = gameState.getInputNode(col);
+            if (in_node != null){
+                IOPortView inputPortView = new IOPortView(this, String.valueOf(in_name), in_node, gameState.getNode(0, col));
+                inputPortView.setData(in_node.iter());
+                addView(inputPortView, 0, col * 2);
+                portViews.add(inputPortView);
+                in_name++;
+            }
+
+            OutputNode out_node = gameState.getOutputNode(col);
+            if (out_node != null){
+                IOPortView outputPortView = new IOPortView(this, String.valueOf(out_name), gameState.getNode(lastRow, col), out_node);
+                outputPortView.setData(out_node.iter());
+                addView(outputPortView, gridLayout.getRowCount()-1, col * 2);
+                portViews.add(outputPortView);
+                out_name++;
+            }
         }
 
     }
@@ -165,30 +177,27 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
             gridLayout.getFocusedChild().clearFocus();
         }
     }
-
-
-    private void step(){
-
-        if (!gameState.isRunning()){
-            gameState.activate();
-
-            if (getCurrentFocus() != null) {
-                getCurrentFocus().clearFocus();
-            }
-        }else {
-            gameState.step();
-        }
-
+    private void updateViews(){
         for (NodeView[] row : nodeViewGrid){
-            for (NodeView nodeView : row){
-//                nodeView.updateAll();
+            for (NodeView nv : row) {
+                nv.setActive(gameState.isRunning());
+                nv.update();
             }
         }
-
 
         for (PortView pv : portViews){
             pv.update();
         }
+    }
+
+
+    private void step(){
+        if (getCurrentFocus() != null) {
+            getCurrentFocus().clearFocus();
+        }
+
+        gameState.step();
+        updateViews();
     }
 
     private void play(){
@@ -221,13 +230,13 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         }).start();
     }
 
-    private void askReset(){
+    private void askErase(){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int choice) {
                 switch (choice) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        reset();
+                        erase();
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         break;
@@ -236,65 +245,33 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Reset the program?")
+        builder.setMessage("Erase the program?")
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
-    public void stop(){
+    public void deactivate(){
         if (!gameState.isRunning()){
-            askReset();
+            askErase();
             return;
         }
 
         playing = false;
-        gameState.reset();
-
-        for (NodeView[] row : nodeViewGrid){
-            for (NodeView node : row){
-//                node.updateAll();
-            }
-        }
-        for (PortView pv : portViews){
-            if (pv instanceof IOPortView && !((IOPortView) pv).isInput()){
-                IOPortView iopv = (IOPortView) pv;
-                OutputNode on = (OutputNode) iopv.getTargetNode();
-                iopv.setData(on.iter());
-                pv.update();
-            }else{
-                pv.update();
-            }
-        }
+        gameState.deactivate();
+        updateViews();
 
     }
 
-    public void reset(){
-        gameState.clear();
-
-        for (NodeView[] row : nodeViewGrid){
-            for (NodeView node : row){
-//                node.clear();
-            }
-        }
-
-        for (PortView pv : portViews){
-
-            if (pv instanceof IOPortView && !((IOPortView) pv).isInput()){
-                IOPortView iopv = (IOPortView) pv;
-                OutputNode on = (OutputNode) iopv.getTargetNode();
-                iopv.setData(on.iter());
-                pv.update();
-            }else{
-                pv.update();
-            }
-        }
+    private void erase(){
+        gameState.erase();
+        updateViews();
     }
 
     @Override
     public void controlButtonClicked(ControlButton button) {
         switch(button){
             case STOP:
-                stop();
+                deactivate();
                 break;
             case PAUSE:
                 playing = false;

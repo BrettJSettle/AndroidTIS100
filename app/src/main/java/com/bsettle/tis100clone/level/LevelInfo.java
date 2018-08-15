@@ -1,46 +1,33 @@
 package com.bsettle.tis100clone.level;
 
-import android.content.res.AssetManager;
 import android.util.JsonReader;
 
 import com.bsettle.tis100clone.impl.IOColumnInfo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.Vector;
 
 public class LevelInfo extends LevelTileInfo{
-    private String name;
-    private String description;
     private int rows = 3;
     private int columns = 4;
     private Vector<IOColumnInfo> inputColumns = new Vector<>();
     private Vector<IOColumnInfo> outputColumns = new Vector<>();
     private Vector<NodeInfo> nodeInfos = new Vector<>();
 
-    enum NodeType {
-        DEFAULT, STACK
+    public enum NodeType {
+        COMMAND, STACK, DISABLED
     }
 
     public static class NodeInfo {
 
         private int row, column;
-        private boolean disabled;
         private NodeType nodeType;
-        private NodeInfo(int row, int column, boolean disabled, NodeType type){
+        private NodeInfo(int row, int column, NodeType type){
             this.row = row;
             this.column = column;
             nodeType = type;
-            this.disabled = disabled;
-        }
-
-        public boolean isDisabled() {
-            return disabled;
         }
 
         public NodeType getNodeType() {
@@ -119,8 +106,7 @@ public class LevelInfo extends LevelTileInfo{
                         reader.beginArray();
                         while(reader.hasNext()){
                             int row = -1, column = -1;
-                            boolean disabled = false;
-                            NodeType nodeType = NodeType.DEFAULT;
+                            NodeType nodeType = NodeType.COMMAND;
                             reader.beginObject();
                             while(reader.hasNext()) {
                                 String nName = reader.nextName();
@@ -131,16 +117,14 @@ public class LevelInfo extends LevelTileInfo{
                                     case "column":
                                         column = reader.nextInt();
                                         break;
-                                    case "disabled":
-                                        disabled = reader.nextBoolean();
-                                        break;
                                     case "type":
                                         nodeType = NodeType.valueOf(reader.nextString());
+                                        break;
                                     default:
                                         throw new IOException("Unknown key '" + nName + " in node");
                                 }
                                 if (row >= 0 && column >= 0) {
-                                    levelInfo.addNodeInfo(new NodeInfo(row, column, disabled, nodeType));
+                                    levelInfo.addNodeInfo(new NodeInfo(row, column, nodeType));
                                 }
                             }
                             reader.endObject();
@@ -161,9 +145,6 @@ public class LevelInfo extends LevelTileInfo{
 
     public String getName(){
         return name;
-    }
-    private void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription(){

@@ -17,9 +17,6 @@ public class InputNode extends Node {
 
     @Override
     public HashMap<String, Object> getDiff() {
-        if (!isRunning()){
-            return null;
-        }
         diff = new HashMap<>();
         if (inputLine < input.size()) {
             diff.put(NodeState.WRITING_PORT, PortToken.DOWN);
@@ -36,16 +33,19 @@ public class InputNode extends Node {
 
     @Override
     public void activate() {
-        super.activate();
         inputLine = 0;
     }
 
     @Override
-    public void reset() {
-        super.reset();
+    public void deactivate() {
         inputLine = -1;
         commit(NodeState.WRITING_PORT, null);
         push();
+    }
+
+    @Override
+    public void reset() {
+        deactivate();
     }
 
     public int getInputLine(){

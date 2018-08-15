@@ -5,7 +5,7 @@
     android:layout_width="@dimen/node_size"
     android:layout_height="@dimen/node_size"
     android:background="@color/border"
-    tools:context=".view.NodeView"
+    tools:context=".view.NodeFrame"
     android:padding="@dimen/border_width">
     <FrameLayout
         android:layout_width="match_parent"

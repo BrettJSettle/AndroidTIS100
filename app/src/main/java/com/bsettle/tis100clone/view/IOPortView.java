@@ -90,19 +90,23 @@ public class IOPortView extends PortView {
             iocv.setSelectedLine(((InputNode) nodeA).getInputLine());
         }else{
             OutputNode node = ((OutputNode) nodeB);
-            Boolean res = node.checkOutput();
-            if (res != null) {
-                int exp = node.getExpectedValue();
-                int out = node.getOutputValue();
-                String s = String.format(Locale.getDefault(), "%d/%d", exp, out);
-                TextView tv = iocv.getCurrentRow();
-                tv.setText(s);
-                iocv.setSelectedLine(node.nextLine());
-                if (!res) {
-                    tv.setBackgroundColor(Color.RED);
+            if (node.getOutputLine() >= 0) {
+                Boolean res = node.checkOutput();
+                if (res != null) {
+                    int exp = node.getExpectedValue();
+                    int out = node.getOutputValue();
+                    String s = String.format(Locale.getDefault(), "%d/%d", exp, out);
+                    TextView tv = iocv.getCurrentRow();
+                    tv.setText(s);
+                    iocv.setSelectedLine(node.nextLine());
+                    if (!res) {
+                        tv.setBackgroundColor(Color.RED);
+                    }
+                } else {
+                    iocv.setSelectedLine(node.getOutputLine());
                 }
-            }else {
-                iocv.setSelectedLine(node.getOutputLine());
+            }else{
+                setData(node.iter());
             }
         }
     }

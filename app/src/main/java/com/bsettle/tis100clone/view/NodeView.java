@@ -1,42 +1,34 @@
 package com.bsettle.tis100clone.view;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
 
-import com.bsettle.tis100clone.R;
+import com.bsettle.tis100clone.impl.Node;
 
-public class NodeView extends FrameLayout{
-
-    private FrameLayout nodeFrame;
+public abstract class NodeView extends ConstraintLayout {
+    protected Node node;
 
     public NodeView(Context context) {
         super(context);
-        initialize(context);
     }
 
     public NodeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize(context);
     }
 
-    public NodeView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        initialize(context);
+    public NodeView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
-    private void initialize(Context context) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        inflater.inflate(R.layout.node_view, this);
-
-        nodeFrame = findViewById(R.id.nodeFrame);
+    public void setNode(Node node){
+        this.node = node;
     }
 
-    private void setView(View view){
-        addView(view);
-    }
+    public abstract Node getNode();
+
+    public abstract void update();
+
+    public abstract void setActive(boolean active);
+
 }

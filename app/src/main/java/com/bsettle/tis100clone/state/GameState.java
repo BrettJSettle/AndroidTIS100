@@ -1,30 +1,23 @@
 package com.bsettle.tis100clone.state;
 
 import android.annotation.SuppressLint;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
 
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.IOColumnInfo;
 import com.bsettle.tis100clone.impl.InputNode;
-import com.bsettle.tis100clone.impl.NodeCollection;
 import com.bsettle.tis100clone.impl.NodeGrid;
 import com.bsettle.tis100clone.impl.OutputNode;
 import com.bsettle.tis100clone.impl.PortToken;
+import com.bsettle.tis100clone.impl.StackNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelInfo.*;
 import com.bsettle.tis100clone.impl.Node;
-import com.bsettle.tis100clone.view.PortView;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-import java.util.logging.Logger;
 
 public class GameState {
-    private Logger logger = Logger.getLogger("GameState");
+    private int step = -1;
 
-    private boolean running = false;
     private LevelInfo info;
 
     private NodeGrid nodeGrid; // stored as [row][col]
@@ -32,6 +25,7 @@ public class GameState {
     private HashMap<Integer, InputNode> inputNodes = new HashMap<>();
     @SuppressLint("UseSparseArrays")
     private HashMap<Integer, OutputNode> outputNodes = new HashMap<>();
+
 
     public GameState(LevelInfo info){
         this.info = info;
@@ -44,7 +38,7 @@ public class GameState {
         for (int r = 0; r < numRows; r++){
             for (int c = 0; c < numCols; c++){
                 NodeInfo i = info.getNodeInfo(r, c);
-                Node n = getNodeFromInfo(i);
+                Node n = makeNode(i);
                 nodeGrid.setNode(r, c, n);
             }
         }
@@ -56,44 +50,31 @@ public class GameState {
             inputNodes.put(n, inputNode);
         }
 
-        int rowCount = info.getRows();
         for (IOColumnInfo outputInfo : info.getOutputColumns()){
             int n = outputInfo.getColumn();
             OutputNode outputNode = new OutputNode(outputInfo.getValues());
-            Node.connectNodes(nodeGrid.getNode(rowCount-1, n), PortToken.DOWN, outputNode);
+            Node.connectNodes(nodeGrid.getNode(numRows-1, n), PortToken.DOWN, outputNode);
             outputNodes.put(n, outputNode);
         }
 
     }
 
-    private void ioDiff(){
-
+    private void getDiff(){
 
         for (OutputNode outputNode : outputNodes.values()){
             outputNode.getDiff();
-            PortToken outPort = outputNode.getState().getWritingPort();
-            if (outPort != null && (outPort.equals(PortToken.ANY) || outPort.equals(PortToken.DOWN))){
-                outputNode.writeFinished(outPort);
-            }
         }
-
 
         for (InputNode inputNode : inputNodes.values()){
             inputNode.getDiff();
         }
-    }
-
-    public void step() {
-
-        if (!running) {
-            return;
-        }
-        ioDiff();
 
         for (Node node : nodeGrid.nodeIterator()) {
             node.getDiff();
         }
+    }
 
+    private void push(){
         for (InputNode inputNode : inputNodes.values()){
             inputNode.push();
         }
@@ -105,27 +86,46 @@ public class GameState {
         for (Node node : nodeGrid.nodeIterator()) {
             node.push();
         }
+    }
+
+    public void step() {
+
+        if (!isRunning()) {
+            activate();
+            return;
+        }
+
+        getDiff();
+        push();
+    }
+
+    public void deactivate() {
+        if (!isRunning()){
+            return;
+        }
+
+        step = -1;
+
+        for (Node node : nodeGrid.nodeIterator()) {
+            node.deactivate();
+        }
+        for (InputNode inputNode : inputNodes.values()){
+            inputNode.deactivate();
+        }
+        for (OutputNode outputNode : outputNodes.values()){
+            outputNode.deactivate();
+        }
 
     }
 
-    public void reset() {
+    public void erase(){
+        if (step == -1){
+            return;
+        }
+
         for (Node node : nodeGrid.nodeIterator()) {
             node.reset();
         }
-        for (InputNode inputNode : inputNodes.values()){
-            inputNode.reset();
-        }
-        for (OutputNode outputNode : outputNodes.values()){
-            outputNode.reset();
-        }
-
-        running = false;
-    }
-
-    public void clear(){
-        for (Node node : nodeGrid.nodeIterator()) {
-            node.clear();
-        }
 
         for (InputNode inputNode : inputNodes.values()){
             inputNode.reset();
@@ -134,10 +134,13 @@ public class GameState {
             outputNode.reset();
         }
 
-        running = false;
     }
 
-    public void activate() {
+    private void activate() {
+        if (step >= 0){
+            return;
+        }
+        step = 0;
         for (Node node : nodeGrid.nodeIterator()) {
             node.activate();
         }
@@ -150,27 +153,38 @@ public class GameState {
             outputNode.activate();
         }
 
-        running = true;
     }
 
     public boolean isRunning(){
-        return running;
+        return step >= 0;
     }
 
-    private Node getNodeFromInfo(NodeInfo info){
-        return new CommandNode();
+    private Node makeNode(NodeInfo info){
+        if (info == null){
+            return new CommandNode();
+        }
+
+        switch (info.getNodeType()){
+            case STACK:
+                return new StackNode();
+            case DISABLED:
+                return null;
+            case COMMAND:
+            default:
+                return new CommandNode();
+        }
     }
 
     public Node getNode(int row, int col) {
         return nodeGrid.getNode(row, col);
     }
 
-    public final HashMap<Integer, InputNode> getInputNodes(){
-        return inputNodes;
+    public final InputNode getInputNode(int column){
+        return inputNodes.get(column);
     }
 
-    public final HashMap<Integer, OutputNode> getOutputNodes(){
-        return outputNodes;
+    public final OutputNode getOutputNode(int column){
+        return outputNodes.get(column);
     }
 
     public LevelInfo getLevelInfo() {

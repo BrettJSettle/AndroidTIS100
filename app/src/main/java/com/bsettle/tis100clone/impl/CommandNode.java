@@ -7,7 +7,6 @@ import com.bsettle.tis100clone.command.LabeledExpression;
 import com.bsettle.tis100clone.state.CommandNodeState;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class CommandNode extends Node {
 	public static final int MAX_COMMANDS = 15;
@@ -26,7 +25,6 @@ public class CommandNode extends Node {
 	/* start/stop */
 	@Override
 	public void activate() {
-	    super.activate();
 	    int line = nextAvailableCommand(0);
 	    if (line >= 0) {
             commit(CommandNodeState.COMMAND_INDEX, line);
@@ -35,26 +33,21 @@ public class CommandNode extends Node {
 	}
 
 	@Override
-    public void reset() {
-		super.reset();
+    public void deactivate() {
         state = new CommandNodeState();
 	}
 
 	@Override
-	public void clear() {
-
+	public void reset() {
 	    for (Command c : commands) {
 			c.setCommand("");
 		}
-		reset();
+		deactivate();
 	}
 
 	/* commands */
 
 	public Command setCommand(int i, String command) {
-		if (isRunning()) {
-			return null;
-		}
 		if (!commands[i].getText().equals(command)) {
             commands[i] = new Command(command);
         }

@@ -1,30 +1,26 @@
 package com.bsettle.tis100clone.view;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bsettle.tis100clone.R;
 import com.bsettle.tis100clone.command.Command;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.Mode;
+import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.impl.PortToken;
 import com.bsettle.tis100clone.parse.ParserException;
 import com.bsettle.tis100clone.state.CommandNodeState;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
-public class CommandNodeView extends ConstraintLayout implements TextWatcher {
-    private CommandNode node;
+public class CommandNodeView extends NodeView implements TextWatcher{
     private CommandEditorView commandEditor;
     private TextView accText, bakText, modeText, lastText, idleText;
-    private Logger logger = Logger.getLogger("NodeView");
 
     public CommandNodeView(Context context) {
         super(context);
@@ -61,27 +57,23 @@ public class CommandNodeView extends ConstraintLayout implements TextWatcher {
         return commandEditor;
     }
 
-    public void setNode(CommandNode node){
+    @Override
+    public void setNode(Node node){
         this.node = node;
-        updateAll();
+        update();
     }
 
+    @Override
     public CommandNode getNode(){
-        return node;
+        return (CommandNode) node;
     }
 
-    public void clear(){
-        commandEditor.setText("");
-        updateAll();
-    }
+    @Override
+    public void update(){
+        CommandNodeState ns =  getNode().getState();
 
-    public void updateAll(){
-        CommandNodeState ns =  node.getState();
-
-        int line = node.isRunning() ? ns.getCommandIndex() : -1;
-
+        int line = ns.getCommandIndex();
         commandEditor.highlightLine(line);
-        commandEditor.setEnabled(!node.isRunning());
 
         accText.setText(String.valueOf(ns.getAccumulator()));
         Integer backup = ns.getBackup();
@@ -102,20 +94,26 @@ public class CommandNodeView extends ConstraintLayout implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        commandEditor.clearErrors();
+
     }
 
     @Override
     public void afterTextChanged(Editable s) {
         String text = commandEditor.getText().toString();
         String[] lines = text.split("\n", -1);
-        HashMap<Integer, ParserException> errorMap = new HashMap<Integer, ParserException>();
+        HashMap<Integer, ParserException> errorMap = new HashMap<>();
         for (int i = 0; i < lines.length; i++){
-            Command c = node.setCommand(i, lines[i]);
+            Command c = getNode().setCommand(i, lines[i]);
+            System.out.println(c);
             if (c != null && c.getError() != null) {
                 errorMap.put(i, c.getError());
             }
         }
-        commandEditor.addErrors(errorMap);
+        commandEditor.setErrorSpans(errorMap);
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        commandEditor.setEnabled(!active);
     }
 }

@@ -2,9 +2,6 @@ package com.bsettle.tis100clone.impl;
 
 import com.bsettle.tis100clone.state.CommandNodeState;
 import com.bsettle.tis100clone.state.NodeState;
-import com.bsettle.tis100clone.view.IOPortView;
-
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -18,14 +15,6 @@ public class OutputNode extends CommandNode {
         this.expected = expected;
         output = new Vector<>();
         setCommand(0, "MOV UP NIL");
-    }
-    @Override
-    public HashMap<String, Object> getDiff() {
-        if (!isRunning()){
-            return null;
-        }
-        diff = super.getDiff();
-        return diff;
     }
 
     @Override
@@ -45,11 +34,10 @@ public class OutputNode extends CommandNode {
     }
 
     @Override
-    public void reset() {
-        super.reset();
+    public void deactivate() {
         outputLine = -1;
         output = new Vector<>();
-        commit(NodeState.WRITING_PORT, null);
+        commit(NodeState.READING_PORT, null);
         push();
     }
 
@@ -77,6 +65,6 @@ public class OutputNode extends CommandNode {
         if (outputLine < 0 || outputLine >= output.size() || outputLine >= expected.size()){
             return null;
         }
-        return output.get(outputLine) == expected.get(outputLine);
+        return output.get(outputLine).equals(expected.get(outputLine));
     }
 }

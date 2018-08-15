@@ -1,20 +1,17 @@
 package com.bsettle.tis100clone.impl;
 
-import com.bsettle.tis100clone.command.Command;
-import com.bsettle.tis100clone.command.Expression;
-import com.bsettle.tis100clone.state.CommandNodeState;
 import com.bsettle.tis100clone.state.NodeState;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
 import java.util.Stack;
 
 
 public class StackNode extends Node {
     private Stack<Integer> stack;
 
-    StackNode(NodeState state) {
-        super(state);
+    public StackNode() {
+        super(new NodeState());
         stack = new Stack<>();
     }
 
@@ -22,6 +19,10 @@ public class StackNode extends Node {
     public void writeFinished(PortToken direction) {
         super.writeFinished(direction);
         stack.pop();
+    }
+
+    public final Iterator<Integer> iter(){
+        return stack.iterator();
     }
 
     @Override
@@ -41,5 +42,18 @@ public class StackNode extends Node {
             }
         }
         return diff;
+    }
+
+    @Override
+    public void deactivate() {
+        stack.clear();
+        commit(NodeState.READING_PORT, null);
+        commit(NodeState.WRITING_PORT, null);
+        commit(NodeState.WRITING_VALUE, null);
+    }
+
+    @Override
+    public void activate() {
+
     }
 }

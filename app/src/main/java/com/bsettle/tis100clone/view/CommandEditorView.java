@@ -5,10 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Editable;
-import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
@@ -25,10 +23,8 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 public class CommandEditorView extends LimitedEditText {
-    private Logger logger = Logger.getLogger("CommandEditorView");
-    private CharacterStyle span;
-    private Vector<CharacterStyle> errorSpans = new Vector<CharacterStyle>();
     private int highlightedLine = -1;
+    private Vector<CharacterStyle> errorSpans = new Vector<>();
 
 
     public CommandEditorView(Context context) {
@@ -53,51 +49,10 @@ public class CommandEditorView extends LimitedEditText {
         setLineSpacing(0, 1);
         setBackgroundColor(Color.argb(0, 0, 0, 0));
         setMaxCharacters(getResources().getInteger(R.integer.max_characters));
-        setEnabled(false);
-        addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String text = getText().toString();
-                String[] lines = text.split("\n", -1);
-                StringBuilder errors = new StringBuilder();
-                for (int i = 0; i < lines.length; i++) {
-                    Command c = new Command(lines[i]); //node.setCommand(i, lines[i]);
-                    ParserException e = c.getError();
-                    if (e != null){
-                        if (errors.length() > 0){
-                            errors.append("\n");
-                        }
-
-                        errors.append(String.format(Locale.getDefault(), "Line %d: ", i));
-                        errors.append(e.getMessage());
-                        CharacterStyle style = new UnderlineSpan();
-                        errorSpans.add(style);
-                        int start = 0, end = lines[i].length();
-
-                        getText().setSpan(style, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    }
-                }
-                if (errors.length() != 0){
-                    setError(errors.toString());
-                }
-                else{
-                    setError(null);
-                }
-            }
-        });
     }
 
     public void highlightLine(int line){
+        Logger.getLogger("CommandEditorView").info("line " + line);
         highlightedLine = line;
         invalidate();
     }
@@ -118,7 +73,8 @@ public class CommandEditorView extends LimitedEditText {
     }
 
 
-    public void addErrors(HashMap<Integer, ParserException> errorMap){
+    public void setErrorSpans(HashMap<Integer, ParserException> errorMap){
+        clearErrors();
         Editable edit = getText();
         String[] lines = edit.toString().split("\n", -1);
 
@@ -138,6 +94,14 @@ public class CommandEditorView extends LimitedEditText {
 //                end = start + e.getToken().sequence.length();
             edit.setSpan(style, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+
+        if (errors.length() != 0){
+            setError(errors.toString());
+        }
+        else{
+            setError(null);
+        }
+
     }
 
     public void clearErrors(){

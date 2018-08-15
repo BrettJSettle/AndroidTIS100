@@ -1,39 +1,22 @@
 package com.bsettle.tis100clone.impl;
 
+import com.bsettle.tis100clone.state.Activatable;
 import com.bsettle.tis100clone.state.CommandNodeState;
 import com.bsettle.tis100clone.state.NodeState;
 
 import java.util.HashMap;
 
-public abstract class Node{
+public abstract class Node implements Activatable{
 
-    protected HashMap<PortToken, Node> neighbors;
+    HashMap<PortToken, Node> neighbors;
 	protected NodeState state;
-	private boolean running = false;
 
 	HashMap<String, Object> diff = null;
 
-    Node(NodeState state) {
+    public Node(NodeState state) {
 		this.state = state;
 		neighbors = new HashMap<>();
 	}
-
-	public void reset(){
-        running = false;
-    }
-
-    public void clear(){
-        running = false;
-        // TODO: reset state
-    }
-
-	public void activate(){
-	    this.running = true;
-    }
-
-    public boolean isRunning(){
-	    return running;
-    }
 
 	public NodeState getState(){
 	    return state;
@@ -116,5 +99,9 @@ public abstract class Node{
         push();
 
         commit(CommandNodeState.MODE, Mode.RUN);
+    }
+
+    public void reset(){
+	    deactivate();
     }
 }
