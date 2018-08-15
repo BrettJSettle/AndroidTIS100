@@ -22,12 +22,12 @@ public class LevelInfo extends LevelTileInfo{
 
     public static class NodeInfo {
 
-        private int row, column;
-        private NodeType nodeType;
+        private final int row, column;
+        private final NodeType nodeType;
         private NodeInfo(int row, int column, NodeType type){
             this.row = row;
             this.column = column;
-            nodeType = type;
+            this.nodeType = type;
         }
 
         public NodeType getNodeType() {
@@ -123,9 +123,9 @@ public class LevelInfo extends LevelTileInfo{
                                     default:
                                         throw new IOException("Unknown key '" + nName + " in node");
                                 }
-                                if (row >= 0 && column >= 0) {
-                                    levelInfo.addNodeInfo(new NodeInfo(row, column, nodeType));
-                                }
+                            }
+                            if (row >= 0 && column >= 0) {
+                                levelInfo.addNodeInfo(new NodeInfo(row, column, nodeType));
                             }
                             reader.endObject();
                         }

@@ -29,10 +29,12 @@ public class StackNode extends Node {
     public HashMap<String, Object> getDiff() {
         if (diff == null) {
             diff = new HashMap<>();
-            for (PortToken p : new PortToken[]{PortToken.UP, PortToken.LEFT, PortToken.RIGHT, PortToken.DOWN}) {
-                Integer in = tryRead(p);
-                if (in != null) {
-                    stack.push(in);
+            if (stack.size() < Node.MAX_LINES) {
+                for (PortToken p : new PortToken[]{PortToken.UP, PortToken.LEFT, PortToken.RIGHT, PortToken.DOWN}) {
+                    Integer in = tryRead(p);
+                    if (in != null) {
+                        stack.push(in);
+                    }
                 }
             }
 

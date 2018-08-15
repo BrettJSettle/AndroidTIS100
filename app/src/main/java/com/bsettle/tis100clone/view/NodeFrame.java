@@ -36,7 +36,7 @@ public class NodeFrame extends FrameLayout{
         nodeFrame = findViewById(R.id.nodeFrame);
     }
 
-    private void setView(View view){
-        addView(view);
+    public void setView(View view){
+        nodeFrame.addView(view);
     }
 }

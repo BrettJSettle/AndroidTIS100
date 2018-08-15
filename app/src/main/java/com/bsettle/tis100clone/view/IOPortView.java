@@ -45,10 +45,6 @@ public class IOPortView extends PortView {
         return nodeB;
     }
 
-    public TextView getCurrentTextView(){
-        return getColumnView().getCurrentRow();
-    }
-
     @Override
     protected View getViewA() {
         if(viewA == null) {

@@ -19,7 +19,6 @@ import java.util.logging.Logger;
  */
 public class LimitedEditText extends AppCompatEditText {
 
-    private Logger logger = Logger.getLogger("LimitedEditText");
 
     /**
      * Max lines to be present in editable text field

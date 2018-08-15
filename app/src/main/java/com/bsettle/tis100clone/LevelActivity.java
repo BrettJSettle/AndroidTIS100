@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
@@ -20,6 +21,7 @@ import com.bsettle.tis100clone.impl.OutputNode;
 import com.bsettle.tis100clone.impl.StackNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
+import com.bsettle.tis100clone.view.CommandEditorView;
 import com.bsettle.tis100clone.view.NodeView;
 import com.bsettle.tis100clone.state.GameState;
 import com.bsettle.tis100clone.view.BidirectionalPortView;
@@ -38,7 +40,7 @@ import java.util.logging.Logger;
 
 public class LevelActivity extends AppCompatActivity implements ControlHandler{
 
-    private static Logger logger = Logger.getLogger("GridActivity");
+    private static Logger logger = Logger.getLogger("LevelActivity");
     private GridLayout gridLayout;
     private NodeView[][] nodeViewGrid;
     private Vector<PortView> portViews;
@@ -57,6 +59,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         Intent intent = getIntent();
         LevelTileInfo level = (LevelTileInfo) intent.getSerializableExtra("level");
         loadLevel(level);
+
     }
 
     private void loadLevel(LevelTileInfo item){
@@ -92,12 +95,12 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                     CommandNodeView nv = new CommandNodeView(this);
                     nodeViewGrid[row][col] = nv;
                     nv.setNode(n);
-                    nf.addView(nv);
+                    nf.setView(nv);
                 }else if (n instanceof StackNode){
                     StackNodeView nv = new StackNodeView(this);
                     nodeViewGrid[row][col] = nv;
                     nv.setNode(n);
-                    nf.addView(nv);
+                    nf.setView(nv);
                 }
                 addView(nf, (row * 2) + 1, col * 2);
             }
@@ -284,4 +287,6 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                 break;
         }
     }
+
+
 }

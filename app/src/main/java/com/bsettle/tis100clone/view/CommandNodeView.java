@@ -1,9 +1,12 @@
 package com.bsettle.tis100clone.view;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.icu.util.UniversalTimeScale;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
@@ -51,11 +54,13 @@ public class CommandNodeView extends NodeView implements TextWatcher{
         commandEditor = findViewById(R.id.commandEditor);
 
         commandEditor.addTextChangedListener(this);
+
     }
 
     public CommandEditorView getCommandEditor(){
         return commandEditor;
     }
+
 
     @Override
     public void setNode(Node node){
@@ -101,15 +106,11 @@ public class CommandNodeView extends NodeView implements TextWatcher{
     public void afterTextChanged(Editable s) {
         String text = commandEditor.getText().toString();
         String[] lines = text.split("\n", -1);
-        HashMap<Integer, ParserException> errorMap = new HashMap<>();
         for (int i = 0; i < lines.length; i++){
-            Command c = getNode().setCommand(i, lines[i]);
-            System.out.println(c);
-            if (c != null && c.getError() != null) {
-                errorMap.put(i, c.getError());
-            }
+            getNode().setCommand(i, lines[i]);
         }
-        commandEditor.setErrorSpans(errorMap);
+        HashMap<Integer, ParserException> map = getNode().getErrorMap();
+        commandEditor.setErrorSpans(map);
     }
 
     @Override

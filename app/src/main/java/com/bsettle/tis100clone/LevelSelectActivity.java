@@ -40,7 +40,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
         parseLevelNames();
         setDataAdapter();
-        openLevel(levels.get(2));
+        openLevel(levels.get(0));
     }
 
     private void openLevel(LevelTileInfo item){
@@ -104,9 +104,6 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemClick(final AdapterView<?> arg0, final View view, final int position, final long id)
     {
-//        String message = "Clicked : " + levels.get(position).getName();
-//        Toast.makeText(getApplicationContext(), message , Toast.LENGTH_SHORT).show();
-
         openLevel(levels.get(position));
     }
 }

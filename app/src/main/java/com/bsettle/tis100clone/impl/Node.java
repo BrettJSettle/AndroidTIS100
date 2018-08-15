@@ -7,6 +7,7 @@ import com.bsettle.tis100clone.state.NodeState;
 import java.util.HashMap;
 
 public abstract class Node implements Activatable{
+    public static final int MAX_LINES = 15;
 
     HashMap<PortToken, Node> neighbors;
 	protected NodeState state;

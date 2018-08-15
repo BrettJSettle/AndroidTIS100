@@ -12,7 +12,7 @@
     "description": "Return the sum of the last 3 inputs"
   },
   {
-  "name": "Big Game",
-  "description": "Large testing grid"
+    "name": "Stack Sample",
+    "description": "Stack node testing"
   }
 ]

@@ -6,15 +6,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Editable;
 import android.text.Spanned;
-import android.text.TextWatcher;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
-import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.bsettle.tis100clone.R;
-import com.bsettle.tis100clone.command.Command;
 import com.bsettle.tis100clone.impl.CommandNode;
+import com.bsettle.tis100clone.impl.Node;
 import com.bsettle.tis100clone.parse.ParserException;
 
 import java.util.HashMap;
@@ -45,16 +46,26 @@ public class CommandEditorView extends LimitedEditText {
     private void init(AttributeSet attrs, int defStyle) {
         setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         setLongClickable(false);
-        setMaxLines(CommandNode.MAX_COMMANDS);
+        setMaxLines(Node.MAX_LINES);
         setLineSpacing(0, 1);
         setBackgroundColor(Color.argb(0, 0, 0, 0));
         setMaxCharacters(getResources().getInteger(R.integer.max_characters));
     }
 
     public void highlightLine(int line){
-        Logger.getLogger("CommandEditorView").info("line " + line);
         highlightedLine = line;
         invalidate();
+    }
+
+    public void setLineHeight(int lineHeight) {
+        int fontHeight = getPaint().getFontMetricsInt(null);
+        setLineSpacing(dpToPixel(lineHeight) - fontHeight, 1);
+    }
+
+    public int dpToPixel(float dp) {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return (int) px;
     }
 
     @Override
@@ -75,24 +86,29 @@ public class CommandEditorView extends LimitedEditText {
 
     public void setErrorSpans(HashMap<Integer, ParserException> errorMap){
         clearErrors();
+
         Editable edit = getText();
         String[] lines = edit.toString().split("\n", -1);
 
         StringBuilder errors = new StringBuilder();
-        for (int k : errorMap.keySet()){
-            ParserException e = errorMap.get(k);
-            if (errors.length() > 0){
-                errors.append("\n");
-            }
+        int start = 0;
+        for (int lineNum = 0; lineNum < lines.length; lineNum++){
+            String line = lines[lineNum];
+            if (errorMap.get(lineNum) != null){
+                ParserException e = errorMap.get(lineNum);
+                if (errors.length() > 0){
+                    errors.append("\n");
+                }
 
-            errors.append(String.format(Locale.getDefault(), "Line %d: ", k));
-            errors.append(e.getMessage());
-            CharacterStyle style = new UnderlineSpan();
-            errorSpans.add(style);
-            int start = 0, end = lines[k].length();
-//                start = e.getToken().location;
-//                end = start + e.getToken().sequence.length();
-            edit.setSpan(style, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                errors.append(String.format(Locale.getDefault(), "Line %d: %s", lineNum, e.getMessage()));
+                CharacterStyle style = new BackgroundColorSpan(Color.argb(100, 255, 0, 0));
+                errorSpans.add(style);
+                int end = start + line.length();
+
+                edit.setSpan(style, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            }
+            start += line.length() + 1;
         }
 
         if (errors.length() != 0){

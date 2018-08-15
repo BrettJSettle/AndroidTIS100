@@ -4,20 +4,23 @@ package com.bsettle.tis100clone.impl;
 import com.bsettle.tis100clone.command.Command;
 import com.bsettle.tis100clone.command.Expression;
 import com.bsettle.tis100clone.command.LabeledExpression;
+import com.bsettle.tis100clone.parse.ParserException;
+import com.bsettle.tis100clone.parse.Token;
 import com.bsettle.tis100clone.state.CommandNodeState;
 
 import java.util.HashMap;
 
 public class CommandNode extends Node {
-	public static final int MAX_COMMANDS = 15;
 
+	private HashMap<Integer, ParserException> errorMap;
 	private Command[] commands;
 
 	public CommandNode() {
 		super(new CommandNodeState());
+        errorMap = new HashMap<>();
 
-		commands = new Command[MAX_COMMANDS];
-		for (int i = 0; i < MAX_COMMANDS; i++) {
+		commands = new Command[Node.MAX_LINES];
+		for (int i = 0; i < Node.MAX_LINES; i++) {
 			commands[i] = new Command("");
 		}
 	}
@@ -46,11 +49,31 @@ public class CommandNode extends Node {
 	}
 
 	/* commands */
-
 	public Command setCommand(int i, String command) {
-		if (!commands[i].getText().equals(command)) {
-            commands[i] = new Command(command);
+        if (commands[i].getText().equals(command)){
+            return commands[i];
         }
+        errorMap.remove(i);
+
+        Command c = new Command(command);
+        ParserException pe = null;
+        if (c.getExpression() instanceof LabeledExpression){
+            LabeledExpression le = (LabeledExpression) c.getExpression();
+            if (getLabelLine(le.getLabel()) == null){
+                Token t = new Token(0, Token.LABEL, le.getLabel());
+                pe = new ParserException(t, "Duplicate label " + le.getLabel());
+            }
+        }
+
+        if (pe == null && c.getError() != null){
+            pe = c.getError();
+        }
+
+        if (pe != null){
+            errorMap.put(i, pe);
+        }
+        commands[i] = c;
+
 		return commands[i];
 	}
 
@@ -63,7 +86,7 @@ public class CommandNode extends Node {
         return nextAvailableCommand(n);
     }
 
-	public int nextAvailableCommand(int n) {
+	private int nextAvailableCommand(int n) {
         int start = n;
         while (commands[n].isEmpty()) {
             n = (n + 1) % commands.length;
@@ -135,5 +158,9 @@ public class CommandNode extends Node {
             diff.put(CommandNodeState.COMMAND_INDEX, nextAvailableCommand());
         }
 	    super.push();
+    }
+
+    public HashMap<Integer, ParserException> getErrorMap() {
+        return errorMap;
     }
 }

@@ -7,11 +7,12 @@
     android:background="@color/border"
     tools:context=".view.NodeFrame"
     android:padding="@dimen/border_width">
+
     <FrameLayout
+        android:id="@+id/nodeFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
-        android:id="@+id/nodeFrame">
+        android:background="@color/background">
 
     </FrameLayout>
 

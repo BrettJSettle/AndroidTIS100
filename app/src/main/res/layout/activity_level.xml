@@ -8,36 +8,32 @@
     android:background="@color/background"
     tools:context=".LevelActivity">
 
-        <com.bsettle.tis100clone.view.PanView
+        <com.otaliastudios.zoom.ZoomLayout
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="horizontal|vertical"
+            app:hasClickableChildren="true"
+            app:maxZoom="4.0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal">
-
                 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:padding="150dp">
 
                     <android.support.v7.widget.GridLayout
                         android:id="@+id/gridLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_margin="50dp" />
+                        android:layout_gravity="top"/>
 
                 </FrameLayout>
-            </RelativeLayout>
-        </com.bsettle.tis100clone.view.PanView>
+        </com.otaliastudios.zoom.ZoomLayout>
 
     <com.bsettle.tis100clone.view.ControlView
         android:id="@+id/buttonView"
