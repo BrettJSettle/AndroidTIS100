@@ -49,8 +49,12 @@ public abstract class PortView extends LinearLayout {
         setLayoutParams(params);
 
         setOrientation(orientation);
+//        RelativeLayout layoutA = new RelativeLayout(getContext());
+//        RelativeLayout layoutB = new RelativeLayout(getContext());
+
         addView(getViewA(), getViewAParams());
         addView(getViewB(), getViewBParams());
+
     }
 
 

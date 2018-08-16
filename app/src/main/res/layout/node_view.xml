@@ -5,8 +5,8 @@
     android:layout_width="@dimen/node_size"
     android:layout_height="@dimen/node_size"
     android:background="@color/border"
-    tools:context=".view.NodeFrame"
-    android:padding="@dimen/border_width">
+    android:padding="@dimen/border_width"
+    tools:context=".view.NodeFrame">
 
     <FrameLayout
         android:id="@+id/nodeFrame"

@@ -47,7 +47,6 @@ public class CommandEditorView extends LimitedEditText {
         setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         setLongClickable(false);
         setMaxLines(Node.MAX_LINES);
-        setLineSpacing(0, 1);
         setBackgroundColor(Color.argb(0, 0, 0, 0));
         setMaxCharacters(getResources().getInteger(R.integer.max_characters));
     }
@@ -57,22 +56,26 @@ public class CommandEditorView extends LimitedEditText {
         invalidate();
     }
 
-    public void setLineHeight(int lineHeight) {
-        int fontHeight = getPaint().getFontMetricsInt(null);
-        setLineSpacing(dpToPixel(lineHeight) - fontHeight, 1);
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        setLineHeight(getHeight() / Node.MAX_LINES);
+
     }
 
-    public int dpToPixel(float dp) {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return (int) px;
+    public void setLineHeight(int lineHeight) {
+        int fontHeight = getPaint().getFontMetricsInt(null);
+        setLineSpacing(lineHeight - fontHeight, 1);
     }
+
+
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawRect(0, 0, getWidth(), getHeight(), new Paint(Color.BLACK));
 
-        float fontHeight = getPaint().getFontMetrics().bottom - getPaint().getFontMetrics().top - 3;
+        float fontHeight = getLineHeight();//getPaint().getFontMetrics().bottom - getPaint().getFontMetrics().top;
+//        fontHeight += getLineSpacingExtra() - 3;
 
         Paint p = new Paint();
         p.setColor(Color.RED);

@@ -109,6 +109,7 @@ public class UnidirectionalPortView extends android.support.v7.widget.AppCompatT
 
         updateArrow(writing || reading);
 
+
         if (writing){
             setText(String.valueOf(source.getState().getWritingValue()));
         }else if (reading){

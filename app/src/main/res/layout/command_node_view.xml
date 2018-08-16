@@ -33,8 +33,6 @@
         android:layout_marginTop="@dimen/border_width"
         android:background="#000000"
         android:orientation="vertical"
-        android:paddingEnd="0dp"
-        android:paddingStart="@dimen/border_width"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">

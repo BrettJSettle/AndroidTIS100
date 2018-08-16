@@ -27,14 +27,15 @@
             android:name=".LevelSelectActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_level_select"
-            android:screenOrientation="sensorLandscape"
+            android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".LevelActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme"
-            android:screenOrientation="sensorLandscape"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="fullSensor"/>
+
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
@@ -31,6 +32,7 @@ import com.bsettle.tis100clone.view.IOPortView;
 import com.bsettle.tis100clone.view.NodeFrame;
 import com.bsettle.tis100clone.view.PortView;
 import com.bsettle.tis100clone.view.StackNodeView;
+import com.otaliastudios.zoom.ZoomLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,6 +55,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
         gridLayout = findViewById(R.id.gridLayout);
+
         ControlView controlView = findViewById(R.id.buttonView);
         controlView.setHandler(this);
 
@@ -60,6 +63,14 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         LevelTileInfo level = (LevelTileInfo) intent.getSerializableExtra("level");
         loadLevel(level);
 
+        gridLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getCurrentFocus() != null){
+                    getCurrentFocus().clearFocus();
+                }
+            }
+        });
     }
 
     private void loadLevel(LevelTileInfo item){
@@ -105,6 +116,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                 addView(nf, (row * 2) + 1, col * 2);
             }
         }
+
     }
 
     private void addView(View view, int row, int col){
@@ -177,7 +189,9 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
             Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
         } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-            gridLayout.getFocusedChild().clearFocus();
+            if (gridLayout.getFocusedChild() != null){
+                gridLayout.getFocusedChild().clearFocus();
+            }
         }
     }
     private void updateViews(){

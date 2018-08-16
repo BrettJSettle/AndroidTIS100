@@ -6,13 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".LevelActivity">
+    tools:context=".LevelActivity"
+    android:focusableInTouchMode="true">
 
         <com.otaliastudios.zoom.ZoomLayout
-            android:id="@+id/scrollView"
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="horizontal|vertical"
+            android:focusableInTouchMode="true"
             app:hasClickableChildren="true"
             app:maxZoom="4.0"
             app:layout_constraintBottom_toBottomOf="parent"

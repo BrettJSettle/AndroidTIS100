@@ -51,7 +51,7 @@ public class StackNode extends Node {
         stack.clear();
         commit(NodeState.READING_PORT, null);
         commit(NodeState.WRITING_PORT, null);
-        commit(NodeState.WRITING_VALUE, null);
+        push();
     }
 
     @Override
