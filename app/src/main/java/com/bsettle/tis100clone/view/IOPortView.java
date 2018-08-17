@@ -1,5 +1,6 @@
 package com.bsettle.tis100clone.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import com.bsettle.tis100clone.impl.OutputNode;
 import java.util.Iterator;
 import java.util.Locale;
 
+@SuppressLint("ViewConstructor")
 public class IOPortView extends PortView {
 
     protected boolean isInput = false;
@@ -32,17 +34,6 @@ public class IOPortView extends PortView {
     public IOPortView(Context context, String header, Node source, OutputNode target) {
         super(context, LinearLayout.HORIZONTAL, source, target);
         ((IOColumnView) viewA).setHeader("OUT." + header);
-    }
-
-    public boolean isInput() {
-        return isInput;
-    }
-
-    public Node getSourceNode(){
-        return nodeA;
-    }
-    public Node getTargetNode(){
-        return nodeB;
     }
 
     @Override
