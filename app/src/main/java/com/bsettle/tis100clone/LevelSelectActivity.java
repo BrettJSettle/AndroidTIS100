@@ -40,7 +40,7 @@ public class LevelSelectActivity extends AppCompatActivity implements AdapterVie
 
         parseLevelNames();
         setDataAdapter();
-        openLevel(levels.get(3));
+//        openLevel(levels.get(3));
     }
 
     private void openLevel(LevelTileInfo item){

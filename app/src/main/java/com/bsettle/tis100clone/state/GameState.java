@@ -12,6 +12,7 @@ import com.bsettle.tis100clone.impl.StackNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelInfo.*;
 import com.bsettle.tis100clone.impl.Node;
+import com.bsettle.tis100clone.level.NodeInfo;
 
 import java.util.HashMap;
 

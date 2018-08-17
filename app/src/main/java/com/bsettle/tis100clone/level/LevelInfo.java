@@ -3,6 +3,7 @@ package com.bsettle.tis100clone.level;
 import android.util.JsonReader;
 
 import com.bsettle.tis100clone.impl.IOColumnInfo;
+import com.bsettle.tis100clone.view.IOColumnView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,29 +19,6 @@ public class LevelInfo extends LevelTileInfo{
 
     public enum NodeType {
         COMMAND, STACK, DISABLED
-    }
-
-    public static class NodeInfo {
-
-        private final int row, column;
-        private final NodeType nodeType;
-        private NodeInfo(int row, int column, NodeType type){
-            this.row = row;
-            this.column = column;
-            this.nodeType = type;
-        }
-
-        public NodeType getNodeType() {
-            return nodeType;
-        }
-
-        private int getRow(){
-            return row;
-        }
-
-        private int getColumn() {
-            return column;
-        }
     }
 
     public LevelInfo(int rows, int columns){
@@ -75,28 +53,13 @@ public class LevelInfo extends LevelTileInfo{
                         reader.beginArray();
                         while (reader.hasNext()){
                             reader.beginObject();
-                            int column = -1;
-                            Vector<Integer> values = new Vector<>();
-                            while(reader.hasNext()) {
-                                switch (reader.nextName()) {
-                                    case "column":
-                                        column = reader.nextInt();
-                                        break;
-                                    case "values":
-                                        reader.beginArray();
-                                        while (reader.hasNext()) {
-                                            values.add(reader.nextInt());
-                                        }
-                                        reader.endArray();
-                                        break;
-                                }
-                            }
-                            reader.endObject();
-                            if (column >= 0) {
+                            IOColumnInfo ioci = IOColumnInfo.fromJson(reader);
+
+                            if (ioci.getColumn() >= 0) {
                                 if (name.equals("input")) {
-                                    levelInfo.addInputColumn(column, values);
+                                    levelInfo.addInputColumn(ioci);
                                 }else {
-                                    levelInfo.addOutputColumn(column, values);
+                                    levelInfo.addOutputColumn(ioci);
                                 }
                             }
                         }
@@ -105,29 +68,11 @@ public class LevelInfo extends LevelTileInfo{
                     case "nodes":
                         reader.beginArray();
                         while(reader.hasNext()){
-                            int row = -1, column = -1;
-                            NodeType nodeType = NodeType.COMMAND;
                             reader.beginObject();
-                            while(reader.hasNext()) {
-                                String nName = reader.nextName();
-                                switch (nName) {
-                                    case "row":
-                                        row = reader.nextInt();
-                                        break;
-                                    case "column":
-                                        column = reader.nextInt();
-                                        break;
-                                    case "type":
-                                        nodeType = NodeType.valueOf(reader.nextString());
-                                        break;
-                                    default:
-                                        throw new IOException("Unknown key '" + nName + " in node");
-                                }
+                            NodeInfo nf = NodeInfo.fromJson(reader);
+                            if (nf != null) {
+                                levelInfo.addNodeInfo(nf);
                             }
-                            if (row >= 0 && column >= 0) {
-                                levelInfo.addNodeInfo(new NodeInfo(row, column, nodeType));
-                            }
-                            reader.endObject();
                         }
                         reader.endArray();
                         break;
@@ -182,12 +127,12 @@ public class LevelInfo extends LevelTileInfo{
         this.columns = columns;
     }
 
-    public void addInputColumn(int column, Vector<Integer> values){
-        inputColumns.add(new IOColumnInfo(column, values));
+    public void addInputColumn(IOColumnInfo ioci){
+        inputColumns.add(ioci);
     }
 
-    public void addOutputColumn(int column, Vector<Integer> values){
-        outputColumns.add(new IOColumnInfo(column, values));
+    public void addOutputColumn(IOColumnInfo ioci){
+        outputColumns.add(ioci);
     }
 
     public Vector<IOColumnInfo> getInputColumns(){
