@@ -50,6 +50,7 @@ public class CommandNode extends Node {
 
 	/* commands */
 	public Command setCommand(int i, String command) {
+	    System.out.println("Setting line " + i + " to " + command);
         if (commands[i].getText().equals(command)){
             return commands[i];
         }
@@ -59,7 +60,7 @@ public class CommandNode extends Node {
         ParserException pe = null;
         if (c.getExpression() instanceof LabeledExpression){
             LabeledExpression le = (LabeledExpression) c.getExpression();
-            if (getLabelLine(le.getLabel()) == null){
+            if (getLabelLine(le.getLabel()) != null){
                 Token t = new Token(0, Token.LABEL, le.getLabel());
                 pe = new ParserException(t, "Duplicate label " + le.getLabel());
             }
