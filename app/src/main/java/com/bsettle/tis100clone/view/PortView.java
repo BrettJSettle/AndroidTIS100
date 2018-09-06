@@ -3,11 +3,14 @@ package com.bsettle.tis100clone.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.constraint.Constraints;
+import android.support.v7.widget.GridLayout;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -44,26 +47,40 @@ public abstract class PortView extends LinearLayout {
 
     private void init(){
 
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.gravity = Gravity.CENTER_VERTICAL;
-        setLayoutParams(params);
+        getViewA().setId(View.generateViewId());
+        getViewB().setId(View.generateViewId());
 
         setOrientation(orientation);
-//        RelativeLayout layoutA = new RelativeLayout(getContext());
-//        RelativeLayout layoutB = new RelativeLayout(getContext());
 
-        addView(getViewA(), getViewAParams());
-        addView(getViewB(), getViewBParams());
+        FrameLayout fa = new FrameLayout(getContext());
+        fa.addView(getViewA());
+        fa.setBackgroundColor(Color.RED);
+        getViewB().setBackgroundColor(Color.YELLOW);
+        addView(fa, getViewAParams());
 
+        FrameLayout fb = new FrameLayout(getContext());
+        fb.addView(getViewB());
+        fb.setBackgroundColor(Color.GREEN);
+        getViewB().setBackgroundColor(Color.BLUE);
+        addView(fb, getViewBParams());
+
+//        addView(getViewA(), getViewAParams());
+//        addView(getViewB(), getViewBParams());
+
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
 
     LinearLayout.LayoutParams getViewAParams(){
-        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        p.weight = 1;
+        return p;
     }
 
     LinearLayout.LayoutParams getViewBParams(){
-        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        p.weight = 1;
+        return p;
     }
 
 

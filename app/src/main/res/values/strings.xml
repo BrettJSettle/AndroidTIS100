@@ -112,4 +112,27 @@
     <string name="title_activity_game_grid">GameGrid</string>
     <string name="stack_node_text">Stack Node</string>
 
+
+    <!-- keyboard buttons -->
+    <string name="nop">NOP</string>
+    <string name="neg">NEG</string>
+    <string name="sav">SAV</string>
+    <string name="swp">SWP</string>
+    <string name="add">ADD</string>
+    <string name="sub">SUB</string>
+    <string name="mov">MOV</string>
+    <string name="nil">NIL</string>
+    <string name="left">LEFT</string>
+    <string name="up">UP</string>
+    <string name="down">DOWN</string>
+    <string name="right">RIGHT</string>
+    <string name="any">ANY</string>
+    <string name="last">LAST</string>
+    <string name="jmp">JMP</string>
+    <string name="jez">JEZ</string>
+    <string name="jnz">JNZ</string>
+    <string name="jgz">JGZ</string>
+    <string name="jlz">JLZ</string>
+    <string name="jro">JRO</string>
+
 </resources>

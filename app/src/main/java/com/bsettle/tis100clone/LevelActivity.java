@@ -5,15 +5,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
+import android.text.InputType;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bsettle.tis100clone.command.Command;
 import com.bsettle.tis100clone.event.ControlHandler;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.InputNode;
@@ -23,6 +34,8 @@ import com.bsettle.tis100clone.impl.StackNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
 import com.bsettle.tis100clone.view.CommandEditorView;
+import com.bsettle.tis100clone.view.CommandNodeKeyboard;
+import com.bsettle.tis100clone.view.CommandNodeKeyboardListAdapter;
 import com.bsettle.tis100clone.view.NodeView;
 import com.bsettle.tis100clone.state.GameState;
 import com.bsettle.tis100clone.view.BidirectionalPortView;
@@ -36,6 +49,9 @@ import com.otaliastudios.zoom.ZoomLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -47,6 +63,8 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
     private NodeView[][] nodeViewGrid;
     private Vector<PortView> portViews;
     private GameState gameState;
+    private ExpandableListView elv;
+    private CommandNodeView currentCommandNode;
 
     private boolean playing = false;
 
@@ -55,6 +73,8 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
         gridLayout = findViewById(R.id.gridLayout);
+
+        buildKeyboard();
 
         ControlView controlView = findViewById(R.id.buttonView);
         controlView.setHandler(this);
@@ -69,6 +89,22 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                 if (getCurrentFocus() != null){
                     getCurrentFocus().clearFocus();
                 }
+            }
+        });
+        this.setFinishOnTouchOutside(true);
+    }
+
+    private void buildKeyboard(){
+        elv = findViewById(R.id.lvExp);
+        elv.setGroupIndicator(null);
+        elv.setAdapter(new CommandNodeKeyboardListAdapter(this));
+        elv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                System.out.println(groupPosition + " " + childPosition);
+                Object o = ((CommandNodeKeyboardListAdapter) elv.getAdapter()).getChild(groupPosition, childPosition);
+                System.out.println(o);
+                return false;
             }
         });
     }
@@ -107,7 +143,20 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                     nodeViewGrid[row][col] = nv;
                     nv.setNode(n);
                     nf.setView(nv);
-                }else if (n instanceof StackNode){
+                    nv.getCommandEditor().setInputType(InputType.TYPE_NULL);
+
+                    nv.getCommandEditor().setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            ViewParent parent = v.getParent();
+                            while(!(parent instanceof CommandNodeView)){
+                                parent = parent.getParent();
+                            }
+                          LevelActivity.this.setEditingNode((CommandNodeView) parent);
+                            return false;
+                        }
+                    });
+                }else if (n instanceof StackNode) {
                     StackNodeView nv = new StackNodeView(this);
                     nodeViewGrid[row][col] = nv;
                     nv.setNode(n);
@@ -119,12 +168,24 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
 
     }
 
+    private void setEditingNode(CommandNodeView cnv){
+        currentCommandNode.setBackgroundColor(Color.BLACK);
+        currentCommandNode = cnv;
+        currentCommandNode.setBackgroundColor(Color.YELLOW);
+    }
+
     private void addView(View view, int row, int col){
         GridLayout.Spec rowSpan = GridLayout.spec(row, GridLayout.CENTER);
         GridLayout.Spec colspan = GridLayout.spec(col, GridLayout.CENTER);
 
         GridLayout.LayoutParams gridParam = new GridLayout.LayoutParams(
                 rowSpan, colspan);
+//        gridParam.setGravity(Gravity.FILL);
+//        gridParam.setGravity(Gravity.CENTER);
+
+        gridParam.width = GridLayout.LayoutParams.MATCH_PARENT;
+        gridParam.height = GridLayout.LayoutParams.MATCH_PARENT;
+
         gridLayout.addView(view, gridParam);
     }
 

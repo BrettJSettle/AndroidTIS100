@@ -46,4 +46,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

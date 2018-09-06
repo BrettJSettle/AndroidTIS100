@@ -60,6 +60,7 @@ public class UnidirectionalPortView extends android.support.v7.widget.AppCompatT
                 right.setToDegrees(-90);
                 arrow = right;
                 setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
+                setMinimumWidth(200);
                 break;
             case DOWN:
                 left = new RotateDrawable();
@@ -68,6 +69,7 @@ public class UnidirectionalPortView extends android.support.v7.widget.AppCompatT
                 left.setToDegrees(90);
                 arrow = left;
                 setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+                setMinimumWidth(200);
                 break;
             case LEFT:
                 top = new RotateDrawable();
@@ -75,12 +77,14 @@ public class UnidirectionalPortView extends android.support.v7.widget.AppCompatT
                 top.setFromDegrees(0);
                 top.setToDegrees(180);
                 arrow = top;
+                setMinimumHeight(200);
                 break;
             case RIGHT:
                 bottom = new RotateDrawable();
                 bottom.setDrawable(arrow_empty);
                 arrow = bottom;
                 setGravity(Gravity.BOTTOM);
+                setMinimumHeight(200);
                 break;
         }
 
