@@ -1,6 +1,6 @@
 package com.bsettle.tis100clone.event;
 
-public interface ControlHandler {
+public interface ControlButtonListener {
     enum ControlButton {
         PLAY, PAUSE, STEP, STOP, RESET
     };

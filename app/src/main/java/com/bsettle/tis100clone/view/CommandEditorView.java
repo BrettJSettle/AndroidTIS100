@@ -10,6 +10,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -128,5 +129,24 @@ public class CommandEditorView extends LimitedEditText {
             getEditableText().removeSpan(span);
         }
         errorSpans.clear();
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        performClick();
+        return false;
+    }
+
+    public void insert(String s){
+        getEditableText().append(s);
+    }
+
+    public void delete(){
+
     }
 }

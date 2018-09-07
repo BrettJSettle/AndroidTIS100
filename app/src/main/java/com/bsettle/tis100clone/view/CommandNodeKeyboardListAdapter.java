@@ -15,10 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-    /**
-     * Created by reale on 21/11/2016.
-     */
-
     public class CommandNodeKeyboardListAdapter extends BaseExpandableListAdapter {
         private Context context;
         private List<String> listDataHeader;
@@ -28,6 +24,12 @@ import java.util.List;
             this.context = context;
             listDataHeader = new ArrayList<>();
             listHashMap = new HashMap<>();
+
+            listDataHeader.add("General");
+            List<String> general = new ArrayList<>();
+            general.add("Enter");
+            general.add("Delete");
+            listHashMap.put("General", general);
 
             listDataHeader.add("Commands");
             List<String> commands = new ArrayList<>();
@@ -154,5 +156,6 @@ import java.util.List;
         public boolean isChildSelectable(int i, int i1) {
             return true;
         }
+
     }
 

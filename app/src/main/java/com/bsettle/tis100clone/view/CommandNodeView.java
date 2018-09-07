@@ -2,18 +2,16 @@ package com.bsettle.tis100clone.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.icu.util.UniversalTimeScale;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bsettle.tis100clone.R;
-import com.bsettle.tis100clone.command.Command;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.Mode;
 import com.bsettle.tis100clone.impl.Node;
@@ -55,6 +53,7 @@ public class CommandNodeView extends NodeView implements TextWatcher{
         idleText = findViewById(R.id.idleText);
         commandEditor = findViewById(R.id.commandEditor);
 
+        commandEditor.setInputType(InputType.TYPE_NULL);
         commandEditor.addTextChangedListener(this);
 
     }
@@ -106,6 +105,9 @@ public class CommandNodeView extends NodeView implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
+        if (getNode() == null){
+            return;
+        }
         String text = commandEditor.getText().toString();
         String[] lines = text.split("\n", -1);
         for (int i = 0; i < lines.length; i++){
@@ -119,4 +121,9 @@ public class CommandNodeView extends NodeView implements TextWatcher{
     public void setActive(boolean active) {
         commandEditor.setEnabled(!active);
     }
+
+    public void setHighlighted(boolean h){
+        setBackgroundColor(h ? Color.WHITE : Color.BLACK);
+    }
+
 }
