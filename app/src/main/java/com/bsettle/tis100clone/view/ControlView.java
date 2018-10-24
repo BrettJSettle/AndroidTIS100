@@ -9,12 +9,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.bsettle.tis100clone.R;
-import com.bsettle.tis100clone.event.ControlHandler;
+import com.bsettle.tis100clone.event.ControlButtonListener;
 
 public class ControlView extends LinearLayout implements View.OnClickListener{
     private ImageButton playButton, stepPauseButton, stopButton;
     private boolean running = false;
-    private ControlHandler handler;
+    private ControlButtonListener handler;
 
     public ControlView(Context context) {
         super(context);
@@ -46,22 +46,22 @@ public class ControlView extends LinearLayout implements View.OnClickListener{
     }
 
     private void play(){
-        handler.controlButtonClicked(ControlHandler.ControlButton.PLAY);
+        handler.controlButtonClicked(ControlButtonListener.ControlButton.PLAY);
         setRunning(true);
     }
 
     private void pause(){
-        handler.controlButtonClicked(ControlHandler.ControlButton.PAUSE);
+        handler.controlButtonClicked(ControlButtonListener.ControlButton.PAUSE);
         setRunning(false);
     }
 
     private void stop(){
-        handler.controlButtonClicked(ControlHandler.ControlButton.STOP);
+        handler.controlButtonClicked(ControlButtonListener.ControlButton.STOP);
         setRunning(false);
     }
 
     private void step(){
-        handler.controlButtonClicked(ControlHandler.ControlButton.STEP);
+        handler.controlButtonClicked(ControlButtonListener.ControlButton.STEP);
     }
 
     private void setRunning(boolean running){
@@ -87,7 +87,7 @@ public class ControlView extends LinearLayout implements View.OnClickListener{
         }
     }
 
-    public void setHandler(ControlHandler handler){
+    public void setHandler(ControlButtonListener handler){
         this.handler = handler;
     }
 

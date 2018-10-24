@@ -3,9 +3,14 @@ package com.bsettle.tis100clone.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Constraints;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bsettle.tis100clone.impl.InputNode;
@@ -15,31 +20,48 @@ import com.bsettle.tis100clone.impl.OutputNode;
 import java.util.Iterator;
 import java.util.Locale;
 
-@SuppressLint("ViewConstructor")
 public class IOPortView extends PortView {
 
     protected boolean isInput = false;
+    protected IOColumnView columnView;
 
-    public IOPortView(Context context, String header, InputNode source, Node target) {
-        super(context, LinearLayout.HORIZONTAL, source, target);
-        ((IOColumnView) viewA).setHeader("IN." + header);
-
-        LinearLayout.LayoutParams params =  super.getViewBParams();
-        params.gravity = Gravity.BOTTOM;
-        viewB.setLayoutParams(params);
+    public IOPortView(Context context, AttributeSet attrs){
+        super(context, LinearLayout.HORIZONTAL, null, null);
+        getColumnView().setHeader("IN");
 
         isInput = true;
     }
 
+    public IOPortView(Context context, String header, InputNode source, Node target) {
+        super(context, LinearLayout.HORIZONTAL, source, target);
+        getColumnView().setHeader("IN." + header);
+
+        isInput = true;
+    }
+
+    @Override
+    LayoutParams getViewBParams() {
+        LinearLayout.LayoutParams p = super.getViewBParams();
+        if (nodeA instanceof InputNode) {
+            p.gravity = Gravity.BOTTOM;
+        }
+        return p;
+    }
+
     public IOPortView(Context context, String header, Node source, OutputNode target) {
         super(context, LinearLayout.HORIZONTAL, source, target);
-        ((IOColumnView) viewA).setHeader("OUT." + header);
+        getColumnView().setHeader("OUT." + header);
     }
 
     @Override
     protected View getViewA() {
         if(viewA == null) {
-            viewA = new IOColumnView(getContext());
+
+            viewA = new FrameLayout(this.getContext());
+            columnView = new IOColumnView(getContext());
+
+            ((FrameLayout) viewA).addView(columnView);
+            viewA.setLayoutDirection(LAYOUT_DIRECTION_RTL);
         }
         return viewA;
     }
@@ -54,7 +76,7 @@ public class IOPortView extends PortView {
     }
 
     protected IOColumnView getColumnView(){
-        return (IOColumnView) viewA;
+        return columnView;
     }
 
     public void setRow(int line, String val){

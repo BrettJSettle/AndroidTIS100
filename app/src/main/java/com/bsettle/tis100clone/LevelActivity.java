@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.graphics.Rect;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayout;
@@ -14,7 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.bsettle.tis100clone.event.ControlHandler;
+import com.bsettle.tis100clone.event.ControlButtonListener;
 import com.bsettle.tis100clone.impl.CommandNode;
 import com.bsettle.tis100clone.impl.InputNode;
 import com.bsettle.tis100clone.impl.Node;
@@ -22,7 +20,6 @@ import com.bsettle.tis100clone.impl.OutputNode;
 import com.bsettle.tis100clone.impl.StackNode;
 import com.bsettle.tis100clone.level.LevelInfo;
 import com.bsettle.tis100clone.level.LevelTileInfo;
-import com.bsettle.tis100clone.view.CommandEditorView;
 import com.bsettle.tis100clone.view.NodeView;
 import com.bsettle.tis100clone.state.GameState;
 import com.bsettle.tis100clone.view.BidirectionalPortView;
@@ -32,7 +29,6 @@ import com.bsettle.tis100clone.view.IOPortView;
 import com.bsettle.tis100clone.view.NodeFrame;
 import com.bsettle.tis100clone.view.PortView;
 import com.bsettle.tis100clone.view.StackNodeView;
-import com.otaliastudios.zoom.ZoomLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +36,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 
-public class LevelActivity extends AppCompatActivity implements ControlHandler{
+public class LevelActivity extends AppCompatActivity implements ControlButtonListener{
 
     private static Logger logger = Logger.getLogger("LevelActivity");
     private GridLayout gridLayout;
@@ -55,6 +51,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
         gridLayout = findViewById(R.id.gridLayout);
+
 
         ControlView controlView = findViewById(R.id.buttonView);
         controlView.setHandler(this);
@@ -71,6 +68,7 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                 }
             }
         });
+        this.setFinishOnTouchOutside(true);
     }
 
     private void loadLevel(LevelTileInfo item){
@@ -103,11 +101,9 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                 Node n = gameState.getNode(row, col);
 
                 if (n instanceof CommandNode){
-                    CommandNodeView nv = new CommandNodeView(this);
-                    nodeViewGrid[row][col] = nv;
-                    nv.setNode(n);
-                    nf.setView(nv);
-                }else if (n instanceof StackNode){
+                    nodeViewGrid[row][col] = createCommandNode(n);
+                    nf.setView(nodeViewGrid[row][col]);
+                }else if (n instanceof StackNode) {
                     StackNodeView nv = new StackNodeView(this);
                     nodeViewGrid[row][col] = nv;
                     nv.setNode(n);
@@ -116,8 +112,14 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
                 addView(nf, (row * 2) + 1, col * 2);
             }
         }
-
     }
+
+    private CommandNodeView createCommandNode(Node n){
+        CommandNodeView nv = new CommandNodeView(this);
+        nv.setNode(n);
+        return nv;
+    }
+
 
     private void addView(View view, int row, int col){
         GridLayout.Spec rowSpan = GridLayout.spec(row, GridLayout.CENTER);
@@ -125,6 +127,12 @@ public class LevelActivity extends AppCompatActivity implements ControlHandler{
 
         GridLayout.LayoutParams gridParam = new GridLayout.LayoutParams(
                 rowSpan, colspan);
+//        gridParam.setGravity(Gravity.FILL);
+//        gridParam.setGravity(Gravity.CENTER);
+
+        gridParam.width = GridLayout.LayoutParams.MATCH_PARENT;
+        gridParam.height = GridLayout.LayoutParams.MATCH_PARENT;
+
         gridLayout.addView(view, gridParam);
     }
 
