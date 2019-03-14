@@ -33,6 +33,7 @@ import com.bsettle.tis100clone.view.IOPortView;
 import com.bsettle.tis100clone.view.NodeFrame;
 import com.bsettle.tis100clone.view.PortView;
 import com.bsettle.tis100clone.view.StackNodeView;
+import com.otaliastudios.zoom.ZoomLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,9 +41,10 @@ import java.util.Vector;
 import java.util.logging.Logger;
 
 
-public class LevelActivity extends AppCompatActivity implements ControlButtonListener{
+public class LevelActivity extends AppCompatActivity implements ControlButtonListener, View.OnClickListener {
 
     private static Logger logger = Logger.getLogger("LevelActivity");
+    private ZoomLayout zoomLayout;
     private GridLayout gridLayout;
     private NodeView[][] nodeViewGrid;
     private Vector<PortView> portViews;
@@ -58,7 +60,7 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
         gridLayout = findViewById(R.id.gridLayout);
-
+        zoomLayout = findViewById(R.id.scroll_view);
         buildKeyboard();
 
         ControlView controlView = findViewById(R.id.buttonView);
@@ -78,6 +80,7 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
             }
         });
         this.setFinishOnTouchOutside(true);
+        gridLayout.setOnClickListener(this);
     }
 
     private void buildKeyboard(){
@@ -97,13 +100,7 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
     }
 
     public void handleCommand(String command){
-        if (command.equals("Enter")){
-            currentCommandNode.getCommandEditor().insert("\n");
-        }else if (command.equals("Delete")){
-            currentCommandNode.getCommandEditor().delete();
-        }else{
-            currentCommandNode.getCommandEditor().insert(command);
-        }
+        System.out.println("Handle " + command);
     }
 
     private void loadLevel(LevelTileInfo item){
@@ -118,6 +115,7 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
         }catch(IOException e){
             logger.info("Failed to load level " + item.getName());
         }
+
     }
 
     private void addNodeViews(){
@@ -152,30 +150,6 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
     private CommandNodeView createCommandNode(Node n){
         CommandNodeView nv = new CommandNodeView(this);
         nv.setNode(n);
-        nv.getCommandEditor().setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
-                    v.performClick();
-                    return true;
-                }
-                if (currentCommandNode != null){
-                    currentCommandNode.setHighlighted(false);
-                    currentCommandNode = null;
-                }
-
-                ViewParent p = v.getParent();
-                for (int i = 0;i < 5; i++){
-                    if (p instanceof CommandNodeView){
-                        selectNodeView((CommandNodeView) p);
-                        break;
-                    }
-                    p = p.getParent();
-                }
-                return true;
-            }
-        });
         return nv;
     }
 
@@ -285,6 +259,7 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
 
 
     private void step(){
+
         if (getCurrentFocus() != null) {
             getCurrentFocus().clearFocus();
         }
@@ -294,6 +269,8 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
     }
 
     private void play(){
+
+
         if (playing){
             return;
         }
@@ -379,4 +356,8 @@ public class LevelActivity extends AppCompatActivity implements ControlButtonLis
     }
 
 
+    @Override
+    public void onClick(View v) {
+        zoomLayout.zoomIn();
+    }
 }

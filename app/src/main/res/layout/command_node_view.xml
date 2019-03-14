@@ -9,21 +9,6 @@
     tools:context=".view.CommandNodeView"
     tools:layout_editor_absoluteY="25dp">
 
-    <com.bsettle.tis100clone.view.CommandEditorView
-        android:id="@+id/commandEditor"
-        style="@style/Monospace"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/border_width"
-        android:background="@color/background"
-        android:gravity="top"
-        android:inputType="textFilter|textMultiLine|textNoSuggestions"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="48dp"
@@ -180,5 +165,20 @@
             android:textColor="@android:color/white"
             android:typeface="monospace" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/commandLineLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:orientation="vertical"
+        android:background="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

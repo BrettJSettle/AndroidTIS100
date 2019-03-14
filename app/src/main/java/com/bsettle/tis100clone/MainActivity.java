@@ -14,8 +14,8 @@ import android.widget.Button;
 import com.bsettle.tis100clone.level.LevelTileInfo;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener{
-    private FloatingActionButton fab;
-    private Button playButton, storeButton;
+    private FloatingActionButton fab, storeButton;
+    private Button playButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

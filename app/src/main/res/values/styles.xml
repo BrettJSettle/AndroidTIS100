@@ -12,7 +12,7 @@
     <style name="Monospace">
         <item name="android:textStyle">normal</item>
         <item name="android:typeface">monospace</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
 </resources>

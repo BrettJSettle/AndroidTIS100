@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bsettle.tis100clone.R;
@@ -19,11 +20,17 @@ import com.bsettle.tis100clone.impl.PortToken;
 import com.bsettle.tis100clone.parse.ParserException;
 import com.bsettle.tis100clone.state.CommandNodeState;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class CommandNodeView extends NodeView implements TextWatcher{
-    private CommandEditorView commandEditor;
+public class CommandNodeView extends NodeView implements View.OnClickListener{
+
     private TextView accText, bakText, modeText, lastText, idleText;
+    private LinearLayout commandLineLayout;
+    private List<CommandLineView> lines;
+
+    private static CommandLineView currentLine;
 
     public CommandNodeView(Context context) {
         super(context);
@@ -41,25 +48,28 @@ public class CommandNodeView extends NodeView implements TextWatcher{
     }
 
     private void initialize(Context context) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflate(context, R.layout.command_node_view, this);
 
-        inflater.inflate(R.layout.command_node_view, this);
-
+        lines = new ArrayList<>();
+        commandLineLayout = findViewById(R.id.commandLineLayout);
+        for (int i = 0; i < 20; i++){
+            addLine();
+        }
         accText = findViewById(R.id.accText);
         bakText = findViewById(R.id.bakText);
         modeText = findViewById(R.id.modeText);
         lastText = findViewById(R.id.lastText);
         idleText = findViewById(R.id.idleText);
-        commandEditor = findViewById(R.id.commandEditor);
-
-        commandEditor.setInputType(InputType.TYPE_NULL);
-        commandEditor.addTextChangedListener(this);
 
     }
 
-    public CommandEditorView getCommandEditor(){
-        return commandEditor;
+    private void addLine(){
+        CommandLineView lineView = new CommandLineView(this.getContext());
+        commandLineLayout.addView(lineView);
+        lineView.setText("LINE " + lines.size());
+        lineView.setOnClickListener(this);
+        lines.add(lineView);
+
     }
 
 
@@ -67,6 +77,7 @@ public class CommandNodeView extends NodeView implements TextWatcher{
     public void setNode(Node node){
         this.node = node;
         update();
+
     }
 
     @Override
@@ -75,11 +86,10 @@ public class CommandNodeView extends NodeView implements TextWatcher{
     }
 
     @Override
-    public void update(){
-        CommandNodeState ns =  getNode().getState();
+    public void update() {
+        CommandNodeState ns = getNode().getState();
 
         int line = ns.getCommandIndex();
-        commandEditor.highlightLine(line);
 
         accText.setText(String.valueOf(ns.getAccumulator()));
         Integer backup = ns.getBackup();
@@ -94,36 +104,20 @@ public class CommandNodeView extends NodeView implements TextWatcher{
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (getNode() == null){
-            return;
-        }
-        String text = commandEditor.getText().toString();
-        String[] lines = text.split("\n", -1);
-        for (int i = 0; i < lines.length; i++){
-            getNode().setCommand(i, lines[i]);
-        }
-        HashMap<Integer, ParserException> map = getNode().getErrorMap();
-        commandEditor.setErrorSpans(map);
-    }
-
-    @Override
     public void setActive(boolean active) {
-        commandEditor.setEnabled(!active);
+
     }
 
     public void setHighlighted(boolean h){
         setBackgroundColor(h ? Color.WHITE : Color.BLACK);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (currentLine != null){
+            currentLine.setBackgroundColor(Color.BLACK);
+        }
+        v.setBackgroundColor(Color.RED);
+        currentLine = (CommandLineView) v;
+    }
 }

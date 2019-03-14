@@ -28,6 +28,7 @@ public class NodeInfo {
     public static NodeInfo fromJson(JsonReader reader) throws IOException{
         int row = -1, column = -1;
         LevelInfo.NodeType nodeType = LevelInfo.NodeType.COMMAND;
+        boolean disabled = false;
 
         while(reader.hasNext()) {
             String nName = reader.nextName();
@@ -41,13 +42,18 @@ public class NodeInfo {
                 case "type":
                     nodeType = LevelInfo.NodeType.valueOf(reader.nextString());
                     break;
+                case "disabled":
+                    disabled = reader.nextBoolean();
+                    break;
                 default:
-                    throw new IOException("Unknown key '" + nName + " in node");
+                    throw new IOException("Unknown key '" + nName + "' in node");
             }
         }
 
         reader.endObject();
-
+        if (disabled){
+            return null;
+        }
         if (row >= 0 && column >= 0) {
             return new NodeInfo(row, column, nodeType);
         }
